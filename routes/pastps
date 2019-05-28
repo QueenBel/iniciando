@@ -1,0 +1,101 @@
+router.post("/home", (req, res, next) => {
+  var price=req.params.price;
+
+  if (price != "") {
+    // filtra los datos que tengan en sus atributos lat y lon null;
+    LAB.find({ tipo: {$ne: null}, nombre: {$ne: null}, ci: {$ne: null}, notalab: {$ne: null}, fecha: {$ne: null}}).exec( (error, docs) => {
+      if (price==docs.notalab) {
+        res.status(200).json({
+            info: docs
+          });
+      }
+    })
+    return;
+  }
+});
+
+router.post('/buscar', (req, res) => {
+  var dia=req.body.dia;
+  var mes=req.body.mes;
+  var anio=req.body.anio;
+  var lab=req.body.lab;
+  LAB.find().select("tipo nombre ci notalab fecha").exec().then((docs)=>{
+    /*resultado: docs.map(doc=>{
+      if (doc.fecha.getDate()!=dia) {
+        res.status(200).json({
+        "msn" : "No existe el recurso "
+      });
+        return;
+      }
+      res.status(200).json(doc);
+
+    })*/
+   /*res.status(200).json({
+     resultado: docs.map(doc=>{
+        if (doc.fecha.getDate()!=dia) {
+         msn:"no existe"
+       }
+       && doc.fecha.getDate()==''
+      // return dd;
+    })
+  });*/
+     /*var d={
+       resultado: docs.map(doc=>{
+          if (doc.fecha.getDate()==dia) {
+           var dd=doc
+         }
+         return dd;
+      })
+   };
+   res.status(200).json(d);
+
+ //}*/
+==================================================
+ LAB.find().then((buscar)=>{
+
+   buscar.forEach((LAB)=> {
+     let dia=req.body.dia;
+     if (LAB.tipo==null || dia!=LAB.tipo) {
+       //return
+       res.status.json("no hay nada");
+       //console.log("tipo: "+LAB.tipo)
+       //console.log("no existe");
+       //return;
+     } else if (dia==LAB.tipo || LAB.tipo!=null) {
+       //console.log("no existe");
+       res.status(200).json({
+         'tipos': LAB.tipo
+       });
+       //return;
+       //console.log("tipo: "+LAB.tipo);
+     }
+
+   })
+   //return;
+ }).catch(err=>{
+res.status(400).json({status:false,msg:"error in promise"})
+});
+===========================================================================
+LAB.find({}).select("tipo nombre ci notalab fecha").exec().then((docs)=>{
+  var labi=[];
+  docs.forEach(function(doc){
+    var m=doc.fecha.getMonth()+1;
+    var d=doc.fecha.getDate();
+    var a=doc.fecha.getFullYear();
+    if (d!=dia && m!=mes) {
+      return;
+    }else if(d==dia && m==mes){
+      labi.push(doc);
+      //labi.push(doc);
+    }else if (m==mes && a==anio) {
+      labi.push(doc);
+    }
+    //console.log(m);
+  });
+  res.status(200).json(labi);
+}).catch(err => {
+  console.log(err);
+  res.status(500).json({
+    error: err
+  });
+});

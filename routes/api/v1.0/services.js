@@ -4,10 +4,107 @@ var router = express.Router();
 var fs = require('fs');
 //var _ = require("underscore");
 var LAB = require("../../../database/collections/../../database/collections/laboratorio");
+var FEC = require("../../../database/collections/../../database/collections/calendario");
+
+
 
 var Img = require("../../../database/collections/img");
 
 var jwt = require("jsonwebtoken");
+/*
+var task_names = [];
+
+tasks.forEach(function (task) {
+    if (task.duration!=120) {
+     return;
+    }
+    task_names.push(task);
+
+});
+console.log(task_names);
+*/
+router.post("/buscar3", (req, res) => {
+  var dia=req.body.dia;
+  var mes=req.body.mes;
+  var anio=req.body.anio;
+  var lab=req.body.lab;
+  var labo=[];
+  LAB.find({}).select("tipo nombre ci notalab fecha").exec().then((docs)=>{
+    //var labo=[];
+    if (docs != null) {
+      //var labo=[];
+      docs.forEach((doc)=>{
+        var m=doc.fecha.getMonth()+1;
+        var d=doc.fecha.getDate();
+        var a=doc.fecha.getFullYear();
+        if (a==anio && mes=='' && dia=='') {
+           labo.push(doc);
+        }else if (a==anio && m==mes && dia=='') {
+          labo.push(doc);
+        }else if (a==anio && mes=='' && d==dia) {
+          labo.push(doc);
+
+        }else if (anio=='' && m==mes && d==dia) {
+          labo.push(doc);
+
+        }else if (anio=='' && m==mes && dia=='') {
+          labo.push(doc);
+
+        }else if (anio=='' && mes=='' && d==dia) {
+          labo.push(doc);
+
+        }else if (a==anio && m==mes && d==dia) {
+          labo.push(doc);
+
+        }
+      });
+      res.status(200).json(labo);
+      return;
+    }
+    res.status(204).json({
+      "msn" : "No existe el recurso "
+    });
+  }).catch(err => {
+     console.log(err);
+     res.status(500).json({
+     error: err
+  });
+});
+
+});
+
+router.post("/buscar1", (req, res) => {
+  var dia=req.body.dia;
+  var mes=req.body.mes;
+  var anio=req.body.anio;
+  var lab=req.body.lab;
+  LAB.find({}).select("tipo nombre ci notalab fecha").exec().then((docs)=>{
+    //  var dg=docs;
+    if (docs!=null) {
+      //res.status(200).json()
+      let d={
+        //  cantidad:docs.length,
+        resultado: docs.map(doc=>{
+          if (doc.fecha.getDate()==dia) {
+            var dd=doc;
+          }
+          return dd;
+        })
+
+      };
+      return;
+      res.status(200).json(d);
+    }
+  }).catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  });
+
+
+});
+
 
 router.post("/labora", (req, res) => {
 
@@ -28,39 +125,107 @@ router.post("/labora", (req, res) => {
     });
   });
 });
+router.get('/menus', (req, res) => {
+  var dia=req.params;
 
-router.post('/buscar', (req, res) => {
-  var dia=req.body.dia;
-  var mes=req.body.mes;
-  var anio=req.body.anio;
-  var lab=req.body.lab;
-  LAB.find().select("tipo nombre ci notalab fecha").exec().then((docs, err)=>{
-   //if(err.fecha.getDate()==dia){
-     var d={
-       resultado: docs.map(doc=>{
-          if (doc.fecha.getDate()==dia) {
-           return{
-             ID:doc._id,
-             tipo:doc.tipo,
-             nombre:doc.nombre,
-             ci:doc.ci,
-             nota:doc.notalab,
-             fecha:doc.fecha
-           }
-         }
+  LAB.find({fecha:dia}).then((docs) =>{
+    if (docs != null && docs.fecha.getDate()==dia) {
+        res.status(200).json(docs);
+        return;
+    }
 
-      })
-   };
-   res.status(200).json(d);
+    res.status(200).json({
+      "msn" : "No existe el recurso "
+    });
 
- //}
+  })
+});
+router.get(/home\/[a-z0-9]{1,}$/, (req, res) => {
+  var url = req.url;
+  var id = url.split("/")[2];
+  var f=new Date();
+  var d=f.getDate();
+  var m=f.getMonth();
+  var a=f.getFullYear();
+  LAB.find({notalab: id}).exec( (error, docs) => {
+    if (docs != null) {
+        res.status(200).json(docs);
+        return;
+//console.log("su dia es: "+ docs.fecha.getDate());
+    }
+
+    res.status(200).json({
+      "msn" : "No existe el recurso "
+    });
+  })
+  //console.log("su dia: "+d+"su mes: "+m+"su anio: "+a);
+});
+
+router.post("/fehas", (req, res) => {
+var  varible= new Date();
+  var d=varible.getDate();
+  var m=varible.getMonth();
+  var a=varible.getFullYear();
+  console.log(d);
+//  var f=(d+'/'+m'/'+'/'+a);
+  var fech = {
+    dia:new Date(d),
+    mes:m,
+    anio:a,
+    fecha:new Date()
+  //  dia: varible.getDate(),
+    //mes: varible.getMonth(),
+    //anio: varible.getFullYear(),
+  //  fecha: d + "-" + m + "-" + a
+
+  };
+  var fecData = new FEC(fech);
+console.log(varible);
+  fecData.save().then( (rr) => {
+    //content-type
+    res.status(200).json({
+      //"id" : rr._id,
+      "msn" : "lab con exito "
+    });
+  });
+});
+router.get('/fehas', (req, res) => {
+  FEC.find({}).exec((error, docs) =>{
+    res.status(200).json({f:docs.fecha.getDay()});
   })
 });
 
+router.post('/buscar', (req, res) => {
+  //var consultation = LAB.find({tipo:req.body.dia}, null, { skip: 10 });
+
+  LAB.find({tipo: req.body.tipo}).stream().on('data', function(doc){
+    // handle doc
+    console.log(doc.tipo);
+    res.status(200).json(doc);
+  });
+
+});
+router.post("/home", (req, res, next) => {
+  let t= req.body.tipo;
+  //var m=fecha.getDate();
+//  console.log(m);
+  LAB.find({tipo:t}, function callback(error, a){
+
+    /*if (t!=a.fecha.getDate()) {
+      res.status(200).json({"msn":"nada"});
+      return;
+    }*/
+  //console.log(m);
+    res.status(200).json({dd: fecha});
+  });
+});
 
 router.get('/labora', (req, res) => {
   LAB.find({}).exec((error, docs) =>{
-    res.status(200).json(docs);
+    res.status(200).json({
+      cantidad:docs.length,
+      va:docs
+    });
   })
 });
 
