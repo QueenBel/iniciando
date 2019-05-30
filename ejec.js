@@ -15,7 +15,7 @@ dwars.forEach(function(doc,num){
   console.log(d);
 });
 */
-var mydate=new Date();
+/*var mydate=new Date();
 console.log(mydate.toString());
 console.log((mydate.getMonth()+1));
 var tasks = [
@@ -55,4 +55,31 @@ tasks.forEach(function (task) {
     task_names.push(task);
 
 });
-console.log(task_names);
+console.log(task_names);*/
+
+
+
+//const moment = require('moment');
+const Moment = require('moment');
+const MomentRange = require('moment-range');
+
+const moment = MomentRange.extendMoment(Moment);
+//const MomentRange = require('moment-range');
+
+//const moment = MomentRange.extendMoment(Moment);
+
+/*var diasEntreFechas = function(desde, hasta) {
+  	var dia_actual = desde;
+    var fechas = [];
+  	while (dia_actual.isSameOrBefore(hasta)) {
+    	fechas.push(dia_actual.format('DD-MM-YYYY'));
+   		dia_actual.add(1, 'days');
+  	}
+  	return fechas;
+};
+
+var desde = moment("2017-11-29");
+var hasta = moment("2017-12-05");
+var results = diasEntreFechas(desde, hasta);
+console.log(results);
+*/

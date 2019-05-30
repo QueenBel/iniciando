@@ -2,27 +2,40 @@ var express = require('express');
 var multer = require('multer');
 var router = express.Router();
 var fs = require('fs');
+const Moment = require('moment');
+const MomentRange = require('moment-range');
+
+const moment = MomentRange.extendMoment(Moment);
 //var _ = require("underscore");
 var LAB = require("../../../database/collections/../../database/collections/laboratorio");
 var FEC = require("../../../database/collections/../../database/collections/calendario");
 
-
-
 var Img = require("../../../database/collections/img");
-
 var jwt = require("jsonwebtoken");
-/*
-var task_names = [];
 
-tasks.forEach(function (task) {
-    if (task.duration!=120) {
-     return;
-    }
-    task_names.push(task);
+router.post("/buscar", (req, res) => {
+  var fechaInicio = new Date(req.body.desde);
+  var fechaFin = new Date(req.body.hasta);
 
+    //var fechaInicio = new Date('2019-05-03');
+    //var fechaFin    = new Date('2019-05-05');
+    //var inicio;
+    //var info=[];
+ if(fechaFin.getDate() >= fechaInicio.getDate()){
+   fechaInicio.setDate(fechaInicio.getDate() + 1);
+   LAB.find({}).exec().then((docs)=>{
+     if (docs!=null) {
+       res.status(200).json(docs);
+       return;
+     }
+
+     res.status(201).json({"msn": "nada"});
+   })
+
+    console.log(fechaInicio.getDate());
+ }
 });
-console.log(task_names);
-*/
+
 router.post("/buscar3", (req, res) => {
   var dia=req.body.dia;
   var mes=req.body.mes;
@@ -65,45 +78,13 @@ router.post("/buscar3", (req, res) => {
       "msn" : "No existe el recurso "
     });
   }).catch(err => {
-     console.log(err);
-     res.status(500).json({
-     error: err
-  });
-});
-
-});
-
-router.post("/buscar1", (req, res) => {
-  var dia=req.body.dia;
-  var mes=req.body.mes;
-  var anio=req.body.anio;
-  var lab=req.body.lab;
-  LAB.find({}).select("tipo nombre ci notalab fecha").exec().then((docs)=>{
-    //  var dg=docs;
-    if (docs!=null) {
-      //res.status(200).json()
-      let d={
-        //  cantidad:docs.length,
-        resultado: docs.map(doc=>{
-          if (doc.fecha.getDate()==dia) {
-            var dd=doc;
-          }
-          return dd;
-        })
-
-      };
-      return;
-      res.status(200).json(d);
-    }
-  }).catch(err => {
-    console.log(err);
-    res.status(500).json({
-      error: err
+       console.log(err);
+       res.status(500).json({
+       error: err
+       });
     });
-  });
 
-
-});
+ });
 
 
 router.post("/labora", (req, res) => {
@@ -124,41 +105,6 @@ router.post("/labora", (req, res) => {
       "msn" : "lab con exito "
     });
   });
-});
-router.get('/menus', (req, res) => {
-  var dia=req.params;
-
-  LAB.find({fecha:dia}).then((docs) =>{
-    if (docs != null && docs.fecha.getDate()==dia) {
-        res.status(200).json(docs);
-        return;
-    }
-
-    res.status(200).json({
-      "msn" : "No existe el recurso "
-    });
-
-  })
-});
-router.get(/home\/[a-z0-9]{1,}$/, (req, res) => {
-  var url = req.url;
-  var id = url.split("/")[2];
-  var f=new Date();
-  var d=f.getDate();
-  var m=f.getMonth();
-  var a=f.getFullYear();
-  LAB.find({notalab: id}).exec( (error, docs) => {
-    if (docs != null) {
-        res.status(200).json(docs);
-        return;
-//console.log("su dia es: "+ docs.fecha.getDate());
-    }
-
-    res.status(200).json({
-      "msn" : "No existe el recurso "
-    });
-  })
-  //console.log("su dia: "+d+"su mes: "+m+"su anio: "+a);
 });
 
 router.post("/fehas", (req, res) => {
@@ -193,31 +139,6 @@ router.get('/fehas', (req, res) => {
   FEC.find({}).exec((error, docs) =>{
     res.status(200).json({f:docs.fecha.getDay()});
   })
-});
-
-router.post('/buscar', (req, res) => {
-  //var consultation = LAB.find({tipo:req.body.dia}, null, { skip: 10 });
-
-  LAB.find({tipo: req.body.tipo}).stream().on('data', function(doc){
-    // handle doc
-    console.log(doc.tipo);
-    res.status(200).json(doc);
-  });
-
-});
-router.post("/home", (req, res, next) => {
-  let t= req.body.tipo;
-  //var m=fecha.getDate();
-//  console.log(m);
-  LAB.find({tipo:t}, function callback(error, a){
-
-    /*if (t!=a.fecha.getDate()) {
-      res.status(200).json({"msn":"nada"});
-      return;
-    }*/
-  //console.log(m);
-    res.status(200).json({dd: fecha});
-  });
 });
 
 router.get('/labora', (req, res) => {

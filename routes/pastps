@@ -99,3 +99,128 @@ LAB.find({}).select("tipo nombre ci notalab fecha").exec().then((docs)=>{
     error: err
   });
 });
+============================================
+router.post("/buscar1", (req, res) => {
+  var dia=req.body.dia;
+  var mes=req.body.mes;
+  var anio=req.body.anio;
+  var lab=req.body.lab;
+  LAB.find({}).select("tipo nombre ci notalab fecha").exec().then((docs)=>{
+    //  var dg=docs;
+    if (docs!=null) {
+      //res.status(200).json()
+      let d={
+        //  cantidad:docs.length,
+        resultado: docs.map(doc=>{
+          if (doc.fecha.getDate()==dia) {
+            var dd=doc;
+          }
+          return dd;
+        })
+
+      };
+      return;
+      res.status(200).json(d);
+    }
+  }).catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  });
+
+
+});
+============================================
+router.get('/menus', (req, res) => {
+  var dia=req.params;
+
+  LAB.find({fecha:dia}).then((docs) =>{
+    if (docs != null && docs.fecha.getDate()==dia) {
+        res.status(200).json(docs);
+        return;
+    }
+
+    res.status(200).json({
+      "msn" : "No existe el recurso "
+    });
+
+  })
+});
+router.get(/home\/[a-z0-9]{1,}$/, (req, res) => {
+  var url = req.url;
+  var id = url.split("/")[2];
+  var f=new Date();
+  var d=f.getDate();
+  var m=f.getMonth();
+  var a=f.getFullYear();
+  LAB.find({notalab: id}).exec( (error, docs) => {
+    if (docs != null) {
+        res.status(200).json(docs);
+        return;
+//console.log("su dia es: "+ docs.fecha.getDate());
+    }
+
+    res.status(200).json({
+      "msn" : "No existe el recurso "
+    });
+  })
+  //console.log("su dia: "+d+"su mes: "+m+"su anio: "+a);
+});
+=============================================
+
+router.post('/buscar', (req, res) => {
+  //var consultation = LAB.find({tipo:req.body.dia}, null, { skip: 10 });
+
+  LAB.find({tipo: req.body.tipo}).stream().on('data', function(doc){
+    // handle doc
+    console.log(doc.tipo);
+    res.status(200).json(doc);
+  });
+
+});
+router.post("/home", (req, res, next) => {
+  let t= req.body.tipo;
+  //var m=fecha.getDate();
+//  console.log(m);
+  LAB.find({tipo:t}, function callback(error, a){
+
+    /*if (t!=a.fecha.getDate()) {
+      res.status(200).json({"msn":"nada"});
+      return;
+    }*/
+  //console.log(m);
+    res.status(200).json({dd: fecha});
+  });
+});
+=============================================
+router.post("/buscar", (req, res) => {
+  var desde=moment(req.body.desde);
+  var hasta=moment(req.body.hasta);
+  //var fechas=[];
+  LAB.find({}).exec().then((docs)=>{
+    if (docs != null) {
+      docs.forEach((doc)=>{
+
+      });
+      res.status(200).json(fechas);
+      return;
+    }
+    res.status(204).json({
+      "msn" : "No existe el recurso "
+    });
+  }).catch(err => {
+       console.log(err);
+       res.status(500).json({
+       error: err
+       });
+    });
+});
+=========================================================
+if (docs != null) {
+  res.status(200).json(docs);
+  return;
+}
+res.status(204).json({
+  "msn" : "No existe el recurso "
+});
