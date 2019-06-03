@@ -19,10 +19,13 @@ router.post("/buscar", (req, res) => {
   var diasEntreFechas = function(fechaDesde, fechaHasta) {
   	var dia_actual = fechaDesde;
     var fechas = [];
-    var date;
+    var date, date1, date2;
   	while (dia_actual.isSameOrBefore(fechaHasta)) {
-       date=dia_actual.format('DD');
-    	fechas.push({'fecha': date});
+       date=dia_actual.format('YYYY');
+       date1=dia_actual.format('MM');
+       date2=dia_actual.format('DD');
+       fechas.push({'anio': date, 'mes': date1, 'dia': date2});
+
    		dia_actual.add(1, 'days');
   	}
   	return fechas;
@@ -32,17 +35,23 @@ router.post("/buscar", (req, res) => {
 
   var results=diasEntreFechas(fechaDesde, fechaHasta);
   console.log(results);
+  console.log(results.length);
     LAB.find({}).select("tipo nombre ci notalab fecha").exec().then((docs)=>{
       //console.log(docs)
               for (var i = 0; i < results.length; i++) {
-
               docs.forEach(function(doc){
-                    var r=results[i];
-                    var f=doc.fecha.getDate();
-                 if (f!=r.fecha){
-                      return;
-                 }
-                 info.push((doc));
+                if (doc.fecha.getFullYear()==results[i].anio) {
+                   var m=doc.fecha.getMonth()+1;
+                   if (m==results[i].mes) {
+                     var d=doc.fecha.getDate();
+                    if (d==results[i].dia) {
+//                        return;
+                      info.push(doc);
+                     }
+                   }
+                }
+                return;
+                 //info.push(doc);
               });
          }
          res.status(200).json(info);

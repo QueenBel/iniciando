@@ -1,3 +1,9 @@
+/*git init
+git add .
+git commit -m "first commit"
+
+git push -u origin master*/
+
 /*var a=2
 let dwars=[{"name":"waaly", "type":"dog", "edad":"5"},{"name":"taxi", "type":"cat", "edad":"1"},
 {"name":"bob", "type":"cat", "edad":"1"},{"name":"red", "type":"cat", "edad":"1"}];
