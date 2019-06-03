@@ -224,3 +224,35 @@ if (docs != null) {
 res.status(204).json({
   "msn" : "No existe el recurso "
 });
+===============================================
+router.post("/buscar", (req, res) => {
+  var fechaInicio = new Date(req.body.desde);
+  var fechaFin = new Date(req.body.hasta);
+  var info=[];
+  LAB.find({}).select("tipo nombre ci notalab fecha").exec().then((docs)=>{
+      if (docs != null) {
+        while (fechaFin.getDate() >= fechaInicio.getDate()) {
+             fechaInicio.setDate(fechaInicio.getDate() + 1);
+            docs.map((doc)=>{
+                if (doc.fecha.getDate()==fechaInicio.getDate()){
+                  var ini=info.push(doc);
+                }
+                return ini;
+
+            });
+            //fechaInicio.setDate(fechaInicio.getDate() + 1);
+          console.log(fechaFin.getFullYear());
+        }
+      res.status(200).json(info);
+      return;
+    }
+    res.status(204).json({
+      "msn" : "No existe el recurso "
+    });
+  }).catch(err => {
+       console.log(err);
+       res.status(500).json({
+       error: err
+       });
+    });
+});

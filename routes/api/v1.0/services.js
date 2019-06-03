@@ -14,26 +14,44 @@ var Img = require("../../../database/collections/img");
 var jwt = require("jsonwebtoken");
 
 router.post("/buscar", (req, res) => {
-  var fechaInicio = new Date(req.body.desde);
-  var fechaFin = new Date(req.body.hasta);
+  var info=[];
 
-    //var fechaInicio = new Date('2019-05-03');
-    //var fechaFin    = new Date('2019-05-05');
-    //var inicio;
-    //var info=[];
- if(fechaFin.getDate() >= fechaInicio.getDate()){
-   fechaInicio.setDate(fechaInicio.getDate() + 1);
-   LAB.find({}).exec().then((docs)=>{
-     if (docs!=null) {
-       res.status(200).json(docs);
-       return;
-     }
+  var diasEntreFechas = function(fechaDesde, fechaHasta) {
+  	var dia_actual = fechaDesde;
+    var fechas = [];
+    var date;
+  	while (dia_actual.isSameOrBefore(fechaHasta)) {
+       date=dia_actual.format('DD');
+    	fechas.push({'fecha': date});
+   		dia_actual.add(1, 'days');
+  	}
+  	return fechas;
+  };
+  var fechaDesde = moment(req.body.desde);
+  var fechaHasta = moment(req.body.hasta);
 
-     res.status(201).json({"msn": "nada"});
-   })
+  var results=diasEntreFechas(fechaDesde, fechaHasta);
+  console.log(results);
+    LAB.find({}).select("tipo nombre ci notalab fecha").exec().then((docs)=>{
+      //console.log(docs)
+              for (var i = 0; i < results.length; i++) {
 
-    console.log(fechaInicio.getDate());
- }
+              docs.forEach(function(doc){
+                    var r=results[i];
+                    var f=doc.fecha.getDate();
+                 if (f!=r.fecha){
+                      return;
+                 }
+                 info.push((doc));
+              });
+         }
+         res.status(200).json(info);
+  }).catch(err => {
+       console.log(err);
+       res.status(500).json({
+       error: err
+       });
+    });
 });
 
 router.post("/buscar3", (req, res) => {
@@ -76,25 +94,27 @@ router.post("/buscar3", (req, res) => {
     }
     res.status(204).json({
       "msn" : "No existe el recurso "
+    }).catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
     });
-  }).catch(err => {
-       console.log(err);
-       res.status(500).json({
-       error: err
-       });
     });
 
  });
 
 
 router.post("/labora", (req, res) => {
-
+   var fff=moment(new Date());
+   var f=fff.format('YYYY-MM-DD');
+   console.log(f)
   var labor = {
     tipo : req.body.tipo,
    nombre : req.body.nombre,
    ci : req.body.ci,
     notalab: req.body.labo,
-    fecha : new Date()
+    fecha : f
   };
   var labData = new LAB(labor);
 
@@ -137,7 +157,7 @@ console.log(varible);
 });
 router.get('/fehas', (req, res) => {
   FEC.find({}).exec((error, docs) =>{
-    res.status(200).json({f:docs.fecha.getDay()});
+    res.status(200).json(docs);
   })
 });
 

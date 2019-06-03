@@ -101,7 +101,7 @@ var fechas = [
   {
     'name'     : 'Work ',
     'duration' : 60,
-    'fecha' : 10
+    'fecha' : 15
     //"fecha" : "2019-05-10T02:24:00"
   },
 
@@ -113,7 +113,7 @@ var fechas = [
   }
 
 ];
-var fechaInicio = new Date('2019-05-03');
+var fechaInicio = new Date('2019-05-1');
 var fechaFin    = new Date('2019-05-15');
 //var fechaInicio = new Date('2017-12-20');
 //var fechaFin    = new Date('2017-12-28');
@@ -121,15 +121,17 @@ var inicio;
 var info=[];
 
   while (fechaFin.getDate() >= fechaInicio.getDate()) {
+    fechaInicio.setDate(fechaInicio.getDate() + 1);
     fechas.forEach(function(task){
+
       if (task.fecha!=fechaInicio.getDate()) {
             //info.push(task);
         return;
       }
-    info.push(task);
+    info.push(task.fecha);
 
   });
-  fechaInicio.setDate(fechaInicio.getDate() + 1);
+  //fechaInicio.setDate(fechaInicio.getDate() + 1);
  console.log(fechaInicio.getDate());
 }
 console.log(info);

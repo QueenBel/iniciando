@@ -64,7 +64,7 @@ let nameLengths=dwars.map(function(item, index, array){
   return 12;
 });
 console.log(nameLengths);
-console.log("==================================");
+console.log("================ARRAY==================");
 nameLengths=dwars.map(function(item, index, array){
   return index;
 });

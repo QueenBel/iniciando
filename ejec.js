@@ -83,3 +83,11 @@ var hasta = moment("2017-12-05");
 var results = diasEntreFechas(desde, hasta);
 console.log(results);
 */
+var fechaInicio = new Date('2017-11-20');
+var fechaFin    = new Date('2017-12-28');
+
+while(fechaFin.getTime() >= fechaInicio.getTime()){
+    fechaInicio.setDate(fechaInicio.getDate() + 1);
+
+    console.log(fechaInicio.getFullYear() + '/' + (fechaInicio.getMonth() + 1) + '/' + fechaInicio.getDate());
+}
