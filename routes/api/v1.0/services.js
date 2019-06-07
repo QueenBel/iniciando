@@ -1,7 +1,7 @@
 var express = require('express');
 var multer = require('multer');
 var router = express.Router();
-var fs = require('fs');
+//var fs = require('fs');
 const Moment = require('moment');
 const MomentRange = require('moment-range');
 
@@ -238,6 +238,38 @@ router.get('/calif', (req, res) => {
     res.status(200).json(docs);
   })
 });
+
+/*====================PDF KIT ====================*/
+
+const PDF =require('pdfkit');
+const fs =require('fs');
+
+router.get('/imprimir', (req, res) => {
+  var pdf = new PDF({
+    size: 'LEGAL', // See other page sizes here: https://github.com/devongovett/pdfkit/blob/d95b826475dd325fb29ef007a9c1bf7a527e9808/lib/page.coffee#L69
+    info: {
+      Title: 'Tile of File Here',
+      Author: 'Some Author',
+    }
+  });
+
+  // Write stuff into PDF
+  pdf.text('Hello World');
+
+  // Stream contents to a file
+  pdf.pipe(
+    fs.createWriteStream('./public/file.pdf')
+  )
+    .on('finish', function () {
+      console.log('PDF closed');
+    });
+
+  // Close PDF and write file.
+  pdf.end();
+
+});
+
+/*====================PDF KIT ====================*/
 
 /* GET home page. */
 router.post("/kcal", function(req, res, next) {

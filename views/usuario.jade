@@ -1,0 +1,31 @@
+extends layUsuario
+
+block content
+  h1= title
+  p ver LAB in NodeJS and Express
+  table.table.table-hover.table-striped.table-bordered
+    thead
+      tr
+        th #
+        th ID
+        th TIPO
+        th NOMBRE
+        th CI
+        th NOTALAB
+        th FECHA
+        th Action
+    tbody
+    - for (var i = 0; i < news.length; ++i) {
+       tr
+         th(scope='row') #{i+1}
+         td #{news[i]['_id']}
+         td #{news[i]['tipo']}
+         td #{news[i]['nombre']}
+         td #{news[i]['ci']}
+         td #{news[i]['notalab']}
+         td #{news[i]['fecha']}
+         td
+          //a(href="users/pdf/"+news[i]['id'])
+          a(href="/users/pdf?id="+news[i]['id'])
+           | Generate PDF
+    - }

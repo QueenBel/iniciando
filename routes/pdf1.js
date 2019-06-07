@@ -1,9 +1,8 @@
-var express = require('express');
-var router = express.Router();
-
+const express = require('express');
+const router = express.Router();
 const PDFDocument = require('pdfkit');
 
-/*router.post("/", (req, res) => {
+router.post("/", (req, res) => {
   const doc = new PDFDocument()
   let filename = req.body.filename
   // Stripping special characters
@@ -17,25 +16,6 @@ const PDFDocument = require('pdfkit');
   doc.text(content, 50, 50)
   doc.pipe(res)
   doc.end()
-});*/
-
-
-let personas = [
-  {
-      id: 1,
-      nombre: "MitoCode"
-  },
-  {
-      id: 2,
-      nombre: "Mito"
-  },
-  {
-      id: 3,
-      nombre: "Code"
-  }
-]
-
-router.get('/', (req, res) => {
-  res.render('index', { titulo: 'pug', mensaje: 'MitoCode | Pug', personas: personas });
 });
+
 module.exports = router;

@@ -2,6 +2,22 @@ const Moment = require('moment');
 const MomentRange = require('moment-range');
 const moment = MomentRange.extendMoment(Moment);
 
+const start = moment("2018-10-14", 'YYYY-MM-DD');
+const end = moment("2018-10-20", 'YYYY-MM-DD');
+
+const current = start.clone();
+const result = [];
+
+while (current.isBefore(end)) {
+  result.push(current.format("YYYY-MM-DD"));
+  current.add(1, "day");
+}
+
+console.log(result);
+
+var mmm=moment.preciseDiff("2014-01-01 12:00:00", "2014-04-20 12:00:00");
+// 3 months 19 days
+console.log(mmm)
 var fechas = [
   {
     'name'     : 'Write for Envato Tuts+',
@@ -59,9 +75,9 @@ while(fechaFin.getDate() >= fechaInicio.getDate()){
     })
 
 }
-console.log(a.length)
-console.log("===========================");
-console.log(a);
+//console.log(a.length)
+//console.log("===========================");
+//console.log(a);
 //var mydate2  =  moment(fechas[0].fecha).format(' YYYY-MM-DD ');
 
 //console.log(info);
