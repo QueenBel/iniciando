@@ -26,18 +26,63 @@ var CUE = require("../../../database/collections/../../database/collections/cues
 var NO = require("../../../database/collections/../../database/collections/nota");
 
 router.post("/notas", (req, res) => {
+  var resultado=[];
   let idm=req.body.idma;
   let ida=req.body.idal;
-  var resultado=[];
-  //var alu=req.body.est;
-  //var mat=req.body.mat;
-  PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria fecha").exec().then((docs)=>{
-    var suma=0;
-    var r=[];
-
+  MAT.findOne({_id:idm}).exec((err, docm)=>{
+    if (err) {
+      res.status(500).json({
+          msn: "error "
+      });
+      return;
+    }
+    ALU.findOne({_id:ida}).exec((err, doca)=>{
+      if (err) {
+        res.status(500).json({
+            msn: "error"
+        });
+        return;
+      }
+      PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria fecha").exec().then((docs)=>{
+          docs.forEach((doc)=>{
+            var m=doc.Lmateria;
+            var a=doc.Lalumno;
+            if (a==ida && m==idm) {
+               resultado.push({
+                  'tipo':doc.Ltipo,
+                  'nombre':doc.Lnombre,
+                  'nota':doc.Lnota,
+                  'fecha':doc.fecha
+               });
+            }
+          });
+          var suma=0;
+          for (var i = 0; i < resultado.length; i++) {
+            suma=resultado[i].nota+suma;
+          }
+          var div=suma/resultado.length;
+          console.log(resultado.length);
+          var r={
+             laboratorios: resultado,
+             ponderacion: div
+          };
+          var notin = {
+            Canombre : docm.Mnombre, // materia
+            Caci: doca.Eci, //estudiante
+            Calab : r,
+            Cacuest : '',
+            fecha: new Date()
+        };
+        var alData = new NO(notin);
+        alData.save().then((rr) => {
+              //content-type
+              res.status(200).json(rr);
+              return;
+        })
+      });
+    });
   });
 });
-
 
 router.get('/notas', (req, res) => {
   NO.find({}).exec((error, docs) =>{

@@ -1,0 +1,296 @@
+/* 1 */
+{
+    "_id" : ObjectId("5ce0f271ad3de32e919c39f6"),
+    "tipo" : "lab1",
+    "nombre" : "sis-555",
+    "ci" : 789456,
+    "notalab" : 55,
+    "fecha" : ISODate("2019-04-30T01:21:20.201Z"),
+    "__v" : 0
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("5ce0f27aad3de32e919c39f7"),
+    "tipo" : "lab2",
+    "nombre" : "sis-555",
+    "ci" : 789456,
+    "notalab" : 45,
+    "fecha" : ISODate("2019-05-01T06:06:50.220Z"),
+    "__v" : 0
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("5ce0f27fad3de32e919c39f8"),
+    "tipo" : "lab3",
+    "nombre" : "sis-555",
+    "ci" : 789456,
+    "notalab" : 15,
+    "fecha" : ISODate("2019-05-04T01:23:20.201Z"),
+    "__v" : 0
+}
+
+/* 4 */
+{
+    "_id" : ObjectId("5ce0f289ad3de32e919c39f9"),
+    "tipo" : "lab3",
+    "nombre" : "sis-444",
+    "ci" : 789456,
+    "notalab" : 45,
+    "fecha" : ISODate("2019-05-04T06:07:05.016Z"),
+    "__v" : 0
+}
+
+/* 5 */
+{
+    "_id" : ObjectId("5ce0f290ad3de32e919c39fa"),
+    "tipo" : "lab2",
+    "nombre" : "sis-444",
+    "ci" : 789456,
+    "notalab" : 65,
+    "fecha" : ISODate("2019-05-04T06:07:12.084Z"),
+    "__v" : 0
+}
+
+/* 6 */
+{
+    "_id" : ObjectId("5ce0f296ad3de32e919c39fb"),
+    "tipo" : "lab1",
+    "nombre" : "sis-444",
+    "ci" : 789456,
+    "notalab" : 45,
+    "fecha" : ISODate("2019-05-06T06:07:18.029Z"),
+    "__v" : 0
+}
+
+/* 7 */
+{
+    "_id" : ObjectId("5ce0f2c4ad3de32e919c39fc"),
+    "tipo" : "lab1",
+    "nombre" : "sis-444",
+    "ci" : 789478,
+    "notalab" : 80,
+    "fecha" : ISODate("2019-05-07T06:08:04.412Z"),
+    "__v" : 0
+}
+
+/* 8 */
+{
+    "_id" : ObjectId("5ce0f2d4ad3de32e919c39fd"),
+    "tipo" : "lab2",
+    "nombre" : "sis-444",
+    "ci" : 789478,
+    "notalab" : 20,
+    "fecha" : ISODate("2019-05-08T06:08:20.441Z"),
+    "__v" : 0
+}
+
+/* 9 */
+{
+    "_id" : ObjectId("5ce0f2dead3de32e919c39fe"),
+    "tipo" : "lab3",
+    "nombre" : "sis-444",
+    "ci" : 789478,
+    "notalab" : 55,
+    "fecha" : ISODate("2019-05-09T06:08:30.119Z"),
+    "__v" : 0
+}
+
+/* 10 */
+{
+    "_id" : ObjectId("5ce0f2e9ad3de32e919c39ff"),
+    "tipo" : "lab3",
+    "nombre" : "sis-555",
+    "ci" : 789478,
+    "notalab" : 55,
+    "fecha" : ISODate("2019-05-10T06:08:41.493Z"),
+    "__v" : 0
+}
+
+/* 11 */
+{
+    "_id" : ObjectId("5ce0f2f9ad3de32e919c3a00"),
+    "tipo" : "lab2",
+    "nombre" : "sis-555",
+    "ci" : 789478,
+    "notalab" : 100,
+    "fecha" : ISODate("2019-05-10T06:08:57.543Z"),
+    "__v" : 0
+}
+
+/* 12 */
+{
+    "_id" : ObjectId("5ce0f309ad3de32e919c3a01"),
+    "tipo" : "lab1",
+    "nombre" : "sis-555",
+    "ci" : 789478,
+    "notalab" : 15,
+    "fecha" : ISODate("2019-05-11T06:09:13.241Z"),
+    "__v" : 0
+}
+
+/* 13 */
+{
+    "_id" : ObjectId("5ce0f336ad3de32e919c3a02"),
+    "tipo" : "lab1",
+    "nombre" : "sis-999",
+    "ci" : 11111111,
+    "notalab" : 15,
+    "fecha" : ISODate("2019-05-11T06:09:58.811Z"),
+    "__v" : 0
+}
+
+/* 14 */
+{
+    "_id" : ObjectId("5ce0f341ad3de32e919c3a03"),
+    "tipo" : "lab2",
+    "nombre" : "sis-999",
+    "ci" : 11111111,
+    "notalab" : 68,
+    "fecha" : ISODate("2019-05-12T06:10:09.103Z"),
+    "__v" : 0
+}
+
+/* 15 */
+{
+    "_id" : ObjectId("5ce0f355ad3de32e919c3a04"),
+    "tipo" : "lab3",
+    "nombre" : "sis-999",
+    "ci" : 11111111,
+    "notalab" : 2,
+    "fecha" : ISODate("2019-05-12T06:10:29.294Z"),
+    "__v" : 0
+}
+
+/* 16 */
+{
+    "_id" : ObjectId("5ce0f362ad3de32e919c3a05"),
+    "tipo" : "lab3",
+    "nombre" : "sis-888",
+    "ci" : 11111111,
+    "notalab" : 22,
+    "fecha" : ISODate("2019-05-16T06:10:42.413Z"),
+    "__v" : 0
+}
+
+/* 17 */
+{
+    "_id" : ObjectId("5ce0f36ead3de32e919c3a06"),
+    "tipo" : "lab2",
+    "nombre" : "sis-888",
+    "ci" : 11111111,
+    "notalab" : 45,
+    "fecha" : ISODate("2019-05-17T06:10:54.113Z"),
+    "__v" : 0
+}
+
+/* 18 */
+{
+    "_id" : ObjectId("5ce0f376ad3de32e919c3a07"),
+    "tipo" : "lab1",
+    "nombre" : "sis-888",
+    "ci" : 11111111,
+    "notalab" : 100,
+    "fecha" : ISODate("2019-05-18T06:11:02.577Z"),
+    "__v" : 0
+}
+
+/* 19 */
+{
+    "_id" : ObjectId("5ce0f39aad3de32e919c3a08"),
+    "tipo" : "lab1",
+    "nombre" : "sis-888",
+    "ci" : 14521584,
+    "notalab" : 19,
+    "fecha" : ISODate("2019-05-19T06:11:38.296Z"),
+    "__v" : 0
+}
+
+/* 20 */
+{
+    "_id" : ObjectId("5ce0f3a4ad3de32e919c3a09"),
+    "tipo" : "lab2",
+    "nombre" : "sis-888",
+    "ci" : 14521584,
+    "notalab" : 70,
+    "fecha" : ISODate("2019-05-20T06:11:48.318Z"),
+    "__v" : 0
+}
+
+/* 21 */
+{
+    "_id" : ObjectId("5ce0f3afad3de32e919c3a0a"),
+    "tipo" : "lab3",
+    "nombre" : "sis-888",
+    "ci" : 14521584,
+    "notalab" : 85,
+    "fecha" : ISODate("2019-05-21T06:11:59.880Z"),
+    "__v" : 0
+}
+
+/* 22 */
+{
+    "_id" : ObjectId("5ce0f3baad3de32e919c3a0b"),
+    "tipo" : "lab3",
+    "nombre" : "sis-999",
+    "ci" : 14521584,
+    "notalab" : 80,
+    "fecha" : ISODate("2019-05-21T06:12:10.456Z"),
+    "__v" : 0
+}
+
+/* 23 */
+{
+    "_id" : ObjectId("5ce0f3c4ad3de32e919c3a0c"),
+    "tipo" : "lab2",
+    "nombre" : "sis-999",
+    "ci" : 14521584,
+    "notalab" : 51,
+    "fecha" : ISODate("2019-05-23T06:12:20.994Z"),
+    "__v" : 0
+}
+
+/* 24 */
+{
+    "_id" : ObjectId("5ce0f3cdad3de32e919c3a0d"),
+    "tipo" : "lab1",
+    "nombre" : "sis-999",
+    "ci" : 14521584,
+    "notalab" : 35,
+    "fecha" : ISODate("2019-05-24T06:12:29.240Z"),
+    "__v" : 0
+}
+
+/* 25 */
+{
+    "_id" : ObjectId("5ce235fc39f9275dc73a5be0"),
+    "tipo" : "lab1",
+    "nombre" : "sis-000",
+    "ci" : 14521584,
+    "notalab" : 35,
+    "fecha" : ISODate("2019-05-25T05:07:08.650Z"),
+    "__v" : 0
+}
+
+/* 26 */
+{
+    "_id" : ObjectId("5cf99301b217c92679668b26"),
+    "tipo" : "lab11111",
+    "nombre" : "sis-000",
+    "ci" : 14521584,
+    "notalab" : 35,
+    "fecha" : ISODate("2019-06-06T00:00:00.000Z"),
+    "__v" : 0
+}
+
+/* 27 */
+{
+    "_id" : ObjectId("5d00910575e4e74e769a9a7d"),
+    "tipo" : "lab11111",
+    "nombre" : "sis-000",
+    "ci" : 14521584,
+    "notalab" : 35,
+    "fecha" : ISODate("2019-06-12T00:00:00.000Z"),
+    "__v" : 0
+}

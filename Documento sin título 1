@@ -1,0 +1,223 @@
+
+  var a=ALU.findById(req.body.aluid).then((alumno)=>{});
+    var m=MAT.findById(req.body.matid).then((materia)=>{});
+      var p=PRA.findById(req.body.praid).then((practica)=>{});
+
+/*  var a=ALU.findOne({_id:req.body.aluid}).then((alumno)=>{
+    console.log(alumno);
+  });*/
+    /*var m=MAT.findById(req.body.matid).then((materia)=>{
+      console.log(materia)
+    });
+      var p=PRA.findById(req.body.praid).then((practica)=>{
+        console.log(practica)
+      });*/
+
+
+var CAL = require("../../../database/collections/../../database/collections/calificaciones");
+router.get('/calific', (req, res) => {
+  CAL.find({}).exec((error, docs) =>{
+    res.status(200).json(docs);
+  })
+});
+
+router.post("/calific", (req, res)=>{
+  ALU.findById(req.body.aluid).then((alumno)=>{
+    MAT.findById(req.body.matid).then((materia)=>{
+      PRA.findById(req.body.praid).then((practica)=>{;
+        var calif={
+          _id: mongoose.Types.ObjectId(),
+           Cnombre : String, // materia
+           Cci: String, //estudiante
+           Clab : Array, // hace referencia a los laboratorios
+           CpondLab: Number, //la nota final de labs
+           Ccuest : Array, // hace referencia a los cueationario
+           CpondCuest: Number, //la nota final de cuest
+           alumno: req.body.aluid, //hace referencia al estudiante
+           materia: req.body.matid, //hace referencia al materia
+           practica: req.body.praid,
+          fecha: new Date()
+        };
+        var caliData = new CAL(calif);
+
+        caliData.save().then( (rr) => {
+          //content-type
+          res.status(200).json({
+            //"id" : rr._id,
+            "msn" : "cal con exito "
+          });
+        })
+        return
+      })
+      return
+    })
+    return
+  }).catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+==========================================================================
+
+router.post("/notas", (req, res) => {
+  let idm=req.body.idma;
+  let ida=req.body.idal;
+  MAT.findOne({_id:idm}).exec((err, docm)=>{
+    if (err) {
+      res.status(500).json({
+          msn: "error "
+      });
+      return;
+    }
+    ALU.findOne({_id:ida}).exec((err, doca)=>{
+    if (err) {
+      res.status(500).json({
+          msn: "error"
+      });
+      return;
+    }
+
+          var notin = {
+            Canombre : docm.Mnombre, // materia
+            Caci: doca.Eci, //estudiante
+            Calab : '', // hace referencia a los laboratorios
+            CapondLab: 44, //la nota final de labs
+            Cacuest : '', // hace referencia a los cueationario
+            CapondCuest: 10,
+            fecha: new Date()
+        };
+        var alData = new NO(notin);
+        alData.save().then((rr) => {
+              //content-type
+              res.status(200).json({
+                rr
+              });
+              return;
+        })
+    });
+  });
+});
+===============================================================
+PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria fecha").exec().then((docs)=>{
+      docs.forEach((doc)=>{
+        var m=doc.Lmateria;
+        var a=doc.Lalumno;
+        if (a==ida && m==idm) {
+           resultado.push({
+              'tipo':doc.Ltipo,
+              'nombre':doc.Lnombre,
+              'nota':doc.Lnota,
+              'fecha':doc.fecha
+           });
+
+        }
+      });
+      var suma=0;
+      
+      for (var i = 0; i < resultado.length; i++) {
+        suma=resultado[i].nota+suma;
+      }
+      var div=suma/resultado.length;
+      console.log(resultado.length);
+      res.status(200).json({
+        practicas:resultado,
+        ponderacion:div
+      });
+     //console.log(resultado);
+  });
+******************************************************************************
+router.post("/notas", (req, res) => {
+  var resultado=[];
+  let idm=req.body.idma;
+  let ida=req.body.idal;
+  MAT.findOne({_id:idm}).exec((err, docm)=>{
+    if (err) {
+      res.status(500).json({
+          msn: "error "
+      });
+      return;
+    }
+    ALU.findOne({_id:ida}).exec((err, doca)=>{
+      if (err) {
+        res.status(500).json({
+            msn: "error"
+        });
+        return;
+      }
+      PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria fecha").exec().then((docs)=>{
+          docs.forEach((doc)=>{
+            var m=doc.Lmateria;
+            var a=doc.Lalumno;
+            if (a==ida && m==idm) {
+               resultado.push({
+                  'tipo':doc.Ltipo,
+                  'nombre':doc.Lnombre,
+                  'nota':doc.Lnota,
+                  'fecha':doc.fecha
+               });
+            }
+          });
+          var suma=0;
+          for (var i = 0; i < resultado.length; i++) {
+            suma=resultado[i].nota+suma;
+          }
+          var div=suma/resultado.length;
+          console.log(resultado.length);
+          var notin = {
+            Canombre : docm.Mnombre, // materia
+            Caci: doca.Eci, //estudiante
+            Calab : resultado, // hace referencia a los laboratorios
+            CapondLab: div, //la nota final de labs
+            Cacuest : '', // hace referencia a los cueationario
+            CapondCuest: 10,
+            fecha: new Date()
+        };
+        var alData = new NO(notin);
+        alData.save().then((rr) => {
+              //content-type
+              res.status(200).json({
+                rr
+              });
+              return;
+        })
+      });
+    });
+  });
+});
+
+****************************************************
+router.post("/notas", (req, res) => {
+  var resultado=[];
+  let idm=req.body.idma;
+  let ida=req.body.idal;
+  PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria fecha").exec().then((docs)=>{
+      docs.forEach((doc)=>{
+        var m=doc.Lmateria;
+        var a=doc.Lalumno;
+        if (a==ida && m==idm) {
+           resultado.push({
+              'tipo':doc.Ltipo,
+              'nombre':doc.Lnombre,
+              'nota':doc.Lnota,
+              'fecha':doc.fecha
+           });
+        }
+      });
+      var suma=0;
+      for (var i = 0; i < resultado.length; i++) {
+        suma=resultado[i].nota+suma;
+      }
+      var div=suma/resultado.length;
+      console.log(resultado.length);
+      var r={
+        practicas: resultado,
+        ponderacion: div
+      };
+      res.status(200).json(r);
+     //console.log(resultado);
+  });
+});
+
