@@ -49,6 +49,9 @@ router.get('/pdf', function(req, res, next) {
       var filename = encodeURIComponent(Ci) + '.pdf';
       res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
       res.setHeader('Content-type', 'application/pdf');
+
+
+
       doc.font('Times-Roman', 18)
         .fontSize(25)
         .text(Tipo, 100, 50);
