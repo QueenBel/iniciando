@@ -24,7 +24,19 @@ var CUE = require("../../../database/collections/../../database/collections/cues
 
 /*=========== CALIFICACION CALIFICACION CALIFICACION CALIFICACION==========*/
 var NO = require("../../../database/collections/../../database/collections/nota");
-
+router.get(/notas\/[a-z0-9]{1,}$/, (req, res) => {
+  var url = req.url;
+  var idno = url.split('/')[2];
+  NO.findOne({_id : idno}).exec((err, docs) =>{
+    if (err) {
+      res.status(500).json({
+          msn: "Existe un error en la base de datos"
+      });
+      return;
+    }
+    res.status(200).json(docs);
+  });
+});
 router.post("/notas", (req, res) => {
   var resultado=[];
   let idm=req.body.idma;
@@ -74,10 +86,33 @@ router.post("/notas", (req, res) => {
             fecha: new Date()
         };
         var alData = new NO(notin);
-        alData.save().then((rr) => {
-              //content-type
-              res.status(200).json(rr);
+        alData.save().then((rrINFO) => {
+          var univ={
+            Epracticas:new Array()
+          }
+          ALU.findOne({_id:ida}).exec((err, docs)=>{
+            var espra=docs.Epracticas;
+            var aux=new Array();
+            if(espra.length==1 && espra[0]==''){
+              univ.Epracticas.push('/api/v1.0/notas/'+rrINFO._id)
+
+            }else {
+              aux.push('/api/v1.0/notas/'+rrINFO._id);
+              espra=espra.concat(aux);
+              univ.Epracticas=espra;
+            }
+            ALU.findOneAndUpdate({_id:ida}, univ, (err, params)=>{
+              if (err) {
+                res.status(500).json({
+                  msn:'error'
+                });
+                return;
+              }
               return;
+            })
+          });
+          res.status(200).json(rrINFO);
+          return;
         })
       });
     });

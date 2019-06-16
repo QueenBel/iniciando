@@ -1,8 +1,9 @@
 /* 1 */
 {
     "_id" : ObjectId("5d002d3489949937186db928"),
-    "Emateria" : [
-        ""
+    "Epracticas" : [
+        "/api/v1.0/notas/5d058322ebe1302627fc505f",
+        "/api/v1.0/notas/5d05838cebe1302627fc5060"
     ],
     "Enombre" : "isabel",
     "Eci" : 123123,
@@ -13,8 +14,9 @@
 /* 2 */
 {
     "_id" : ObjectId("5d003e690c52823b1cbac0d8"),
-    "Emateria" : [
-        ""
+    "Epracticas" : [ 
+        "/api/v1.0/notas/5d0583b2ebe1302627fc5061",
+        "/api/v1.0/notas/5d0583cdebe1302627fc5062"
     ],
     "Enombre" : "belisa",
     "Eci" : 456456,

@@ -116,7 +116,7 @@ PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria fecha").exec().then((d
         }
       });
       var suma=0;
-      
+
       for (var i = 0; i < resultado.length; i++) {
         suma=resultado[i].nota+suma;
       }
@@ -220,4 +220,4 @@ router.post("/notas", (req, res) => {
      //console.log(resultado);
   });
 });
-
+=*=*=*=*=*=**=*==*=*=*=*=**=*=*=***=*=*****=*=*=*=*=**

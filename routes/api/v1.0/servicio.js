@@ -237,7 +237,7 @@ router.post("/practica", (req, res) => {
         return;
       })
     });
-    var univ={
+    /*var univ={
       Epracticas:new Array()
     }
     ALU.findOne({_id:IDes}).exec((err, docs)=>{
@@ -262,7 +262,7 @@ router.post("/practica", (req, res) => {
 
         return;
       })
-    });
+    });*/
     res.status(200).json({
       "id" : rrINFO._id,
       "msn" : "registrado con exito "
@@ -317,7 +317,100 @@ router.post('/estmat/', (req, res) => {
 
 /*=========== CUESTIONARIO CUESTIONARIO CUESTIONARIO CUESTIONARIO==========*/
 var CUE = require("../../../database/collections/../../database/collections/cuestionario");
+var PRA = require("../../../database/collections/../../database/collections/practica");
+router.get(/cuestion\/[a-z0-9]{1,}$/, (req, res) => {
+  var url = req.url;
+  var idCues = url.split('/')[2];
+  CUE.findOne({_id : idCues}).exec((err, docs) =>{
+    if (err) {
+      res.status(500).json({
+          msn: "Existe un error en la base de datos"
+      });
+      return;
+    }
+    res.status(200).json(docs);
+  });
+});
 
+router.post("/cuestion", (req, res) => {
+  var IDma=req.body.materia;
+  var IDes=req.body.estudiante;
+
+  var practiqe = {
+    Ltipo : req.body.tipo, // lab1 lab2
+    Lnombre : req.body.nombre, //nombre de laboratorio
+    Lnota: req.body.nota,
+    Lalumno: IDes,
+    Lmateria:IDma,
+    fecha: new Date()
+  };
+  var cuesData = new CUE(cuest);
+
+  cuesData.save().then((rrINFO) => {
+    var materie={
+      Mlaboratorio:new Array()
+    }
+    MAT.findOne({_id:IDma}).exec((err, docs)=>{
+      var labmat=docs.Mlaboratorio;
+      var aux=new Array();
+      if(labmat.length==1 && labmat[0]==''){
+        materie.Mlaboratorio.push('/api/v1.0/practica/'+rrINFO._id)
+
+      }else {
+        aux.push('/api/v1.0/practica/'+rrINFO._id);
+        labmat=labmat.concat(aux);
+        materie.Mlaboratorio=labmat;
+      }
+      MAT.findOneAndUpdate({_id:IDma}, materie, (err, params)=>{
+        if (err) {
+          res.status(500).json({
+            msn:'error'
+          });
+          return;
+        }
+        //content-type
+
+        return;
+      })
+    });
+    var univ={
+      Epracticas:new Array()
+    }
+    ALU.findOne({_id:IDes}).exec((err, docs)=>{
+      var espra=docs.Epracticas;
+      var aux=new Array();
+      if(espra.length==1 && espra[0]==''){
+        univ.Epracticas.push('/api/v1.0/practica/'+rrINFO._id)
+
+      }else {
+        aux.push('/api/v1.0/practica/'+rrINFO._id);
+        espra=espra.concat(aux);
+        univ.Epracticas=espra;
+      }
+      ALU.findOneAndUpdate({_id:IDes}, univ, (err, params)=>{
+        if (err) {
+          res.status(500).json({
+            msn:'error'
+          });
+          return;
+        }
+        //content-type
+
+        return;
+      })
+    });
+    res.status(200).json({
+      "id" : rrINFO._id,
+      "msn" : "registrado con exito "
+    });
+  });
+});
+
+router.get('/cuestion', (req, res) => {
+  CUE.find({}).exec((error, docs) =>{
+    res.status(200).json(docs);
+  })
+});
 
 /*=========== CALIFICACION CALIFICACION CALIFICACION CALIFICACION==========*/
 var CAL = require("../../../database/collections/../../database/collections/calificaciones");
