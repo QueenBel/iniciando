@@ -7,6 +7,7 @@ var pracSchema = new Schema({
    Lnota: Number,
    Lalumno: String,
    Lmateria:String,
+   Lestados:String,
    fecha: Date
 });
 var prac = mongoose.model("pract", pracSchema);

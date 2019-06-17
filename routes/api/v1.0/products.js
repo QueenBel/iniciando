@@ -177,6 +177,32 @@ router.post("/anmedi", (req, res) => {
     });
   });
  });
+
+ router.post("/nombrep", (req, res) => {
+    var wordkey=req.body.wordkey;
+    var information=[]
+    PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria fecha").exec().then((docs)=>{
+      docs.forEach((doc)=>{
+        if (wordkey==doc.Ltipo) {
+          information.push({
+            tipo:doc.Ltipo,
+            nombre:doc.Lnombre,
+            nota:doc.Lnota,
+            alumno:doc.Lalumno,
+            materia:doc.Lmateria,
+            fecha:doc.fecha,
+            estudiante:{
+              url:'/api/v1.0/student/'+doc.Lalumno
+            }
+          });
+        //  return information;
+        }
+      });
+      res.status(200).json(information)
+
+    })
+  });
+
 /*=*=*=**=*=*=*=*=*=**=*=*=*=*=*=*=*=*=*=*=*=**=*=*=*=**/
 router.get("/producto", (req, res, next) => {
   var r=[];

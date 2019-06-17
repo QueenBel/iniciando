@@ -11,7 +11,7 @@ var pdf1 = require('./routes/pdf1');
 
 var service = require('./routes/api/v1.0/services');
 var service1 = require('./routes/api/v1.0/servicio');
-
+var servi = require('./routes/api/v1.0/servi');
 var prod1 = require('./routes/api/v1.0/products');
 var orde1 = require('./routes/api/v1.0/orders');
 
@@ -35,6 +35,7 @@ app.use('/acrob', pdf1);
 
 app.use('/api/v1.0/', service);
 app.use('/api/v1.0/', service1);
+app.use('/api/v1.0/', servi);
 
 app.use('/api/v1.0/', prod1);
 app.use('/api/v1.0/', orde1);
