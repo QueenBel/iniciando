@@ -32,7 +32,7 @@ router.post("/rangos", (req, res) => {
   var fechaHasta = moment(req.body.hasta);
 
   var results=diasEntreFechas(fechaDesde, fechaHasta);
-    PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria fecha").exec().then((docs)=>{
+    PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha").exec().then((docs)=>{
           for (var i = 0; i < results.length; i++) {
               docs.forEach(function(doc){
                 if (doc.fecha.getFullYear()==results[i].anio) {
@@ -46,6 +46,7 @@ router.post("/rangos", (req, res) => {
                         nota:doc.Lnota,
                         alumno:doc.Lalumno,
                         materia:doc.Lmateria,
+                        estado:doc.Lestados,
                         fecha:doc.fecha,
                         estudiante:{
                           url:'/api/v1.0/student/'+doc.Lalumno
@@ -72,7 +73,7 @@ router.post("/anmedi", (req, res) => {
   var anio=req.body.anio;
   var lab=req.body.lab;
   var labo=[];
-  PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria fecha").exec().then((docs)=>{
+  PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha").exec().then((docs)=>{
     if (docs != null) {
       docs.forEach((doc)=>{
         var m=doc.fecha.getMonth()+1;
@@ -85,6 +86,7 @@ router.post("/anmedi", (req, res) => {
              nota:doc.Lnota,
              alumno:doc.Lalumno,
              materia:doc.Lmateria,
+             estado:doc.Lestados,
              fecha:doc.fecha,
              estudiante:{
                url:'/api/v1.0/student/'+doc.Lalumno
@@ -97,6 +99,7 @@ router.post("/anmedi", (req, res) => {
             nota:doc.Lnota,
             alumno:doc.Lalumno,
             materia:doc.Lmateria,
+            estado:doc.Lestados,
             fecha:doc.fecha,
             estudiante:{
               url:'/api/v1.0/student/'+doc.Lalumno
@@ -109,6 +112,7 @@ router.post("/anmedi", (req, res) => {
             nota:doc.Lnota,
             alumno:doc.Lalumno,
             materia:doc.Lmateria,
+            estado:doc.Lestados,
             fecha:doc.fecha,
             estudiante:{
               url:'/api/v1.0/student/'+doc.Lalumno
@@ -121,6 +125,7 @@ router.post("/anmedi", (req, res) => {
             nota:doc.Lnota,
             alumno:doc.Lalumno,
             materia:doc.Lmateria,
+            estado:doc.Lestados,
             fecha:doc.fecha,
             estudiante:{
               url:'/api/v1.0/student/'+doc.Lalumno
@@ -133,6 +138,7 @@ router.post("/anmedi", (req, res) => {
             nota:doc.Lnota,
             alumno:doc.Lalumno,
             materia:doc.Lmateria,
+            estado:doc.Lestados,
             fecha:doc.fecha,
             estudiante:{
               url:'/api/v1.0/student/'+doc.Lalumno
@@ -145,6 +151,7 @@ router.post("/anmedi", (req, res) => {
             nota:doc.Lnota,
             alumno:doc.Lalumno,
             materia:doc.Lmateria,
+            estado:doc.Lestados,
             fecha:doc.fecha,
             estudiante:{
               url:'/api/v1.0/student/'+doc.Lalumno
@@ -157,6 +164,7 @@ router.post("/anmedi", (req, res) => {
             nota:doc.Lnota,
             alumno:doc.Lalumno,
             materia:doc.Lmateria,
+            estado:doc.Lestados,
             fecha:doc.fecha,
             estudiante:{
               url:'/api/v1.0/student/'+doc.Lalumno
@@ -181,7 +189,7 @@ router.post("/anmedi", (req, res) => {
  router.post("/nombrep", (req, res) => {
     var wordkey=req.body.wordkey;
     var information=[]
-    PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria fecha").exec().then((docs)=>{
+    PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha").exec().then((docs)=>{
       docs.forEach((doc)=>{
         if (wordkey==doc.Ltipo) {
           information.push({
@@ -190,6 +198,7 @@ router.post("/anmedi", (req, res) => {
             nota:doc.Lnota,
             alumno:doc.Lalumno,
             materia:doc.Lmateria,
+            estado:doc.Lestados,
             fecha:doc.fecha,
             estudiante:{
               url:'/api/v1.0/student/'+doc.Lalumno

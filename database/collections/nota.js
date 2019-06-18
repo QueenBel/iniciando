@@ -3,7 +3,12 @@ var mon = require('mongoose');
 var Schema = mon.Schema;
 var notSchema = new Schema({
    Canombre : String, // materia
+   Caidmat : String,
+   Cadocente : String, //docente
+   Caiddoc : String,
    Caci: String, //estudiante
+   Caestu : String, //nombre de estudiante
+   Caidalu : String,
    Calab : Array, // hace referencia a los laboratorios
    Cacuest : Array, // hace referencia a los cueationario
    fecha: Date

@@ -29,6 +29,7 @@ var NO = require("../../../database/collections/../../database/collections/nota"
 router.post("/estados", (req, res) => {
   var resultado=[];
   var resultado1=[];
+  var resultado2=[];
   let idm=req.body.idma;
   let ida=req.body.idal;
   MAT.findOne({_id:idm}).exec((err, docm)=>{
@@ -65,6 +66,14 @@ router.post("/estados", (req, res) => {
                  'estado':doc.Lestados,
                  'fecha':doc.fecha
               });
+            }else if (a==ida && m==idm && doc.Lestados=="pendiente") {
+              resultado2.push({
+                 'tipo':doc.Ltipo,
+                 'nombre':doc.Lnombre,
+                 'nota':doc.Lnota,
+                 'estado':doc.Lestados,
+                 'fecha':doc.fecha
+              });
             }
           });
           var suma=0;
@@ -82,11 +91,16 @@ router.post("/estados", (req, res) => {
              laboratorios: resultado1,
              cantidad: resultado1.length
           };
+          var r2={
+             laboratorios: resultado2,
+             cantidad: resultado2.length
+          };
           var notin = {
             Canombre : docm.Mnombre, // materia
             Caci: doca.Enombre, //estudiante
             CalabRe : r,
-            CalabFa : r1
+            CalabFa : r1,
+            CalabPe : r2
         };
         res.status(200).json(notin)
       });
