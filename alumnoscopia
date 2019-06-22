@@ -195,7 +195,6 @@ var NO = require("../../../database/collections/../../database/collections/nota"
                          if (m==results[i].mes) {
                            var d=doc.fecha.getDate();
                           if (d==results[i].dia) {
-                            if (doc.Lestados=="terminado") {
                               info.push({
                                 tipo:doc.Ltipo,
                                 nombre:doc.Lnombre,
@@ -209,110 +208,31 @@ var NO = require("../../../database/collections/../../database/collections/nota"
                                 },
                                 idlab:doc._id
                               });
-                            }else if (doc.Lestados=="falta") {
-                              info1.push({
-                                tipo:doc.Ltipo,
-                                nombre:doc.Lnombre,
-                                nota:doc.Lnota,
-                                alumno:doc.Lalumno,
-                                materia:doc.Lmateria,
-                                estado:doc.Lestados,
-                                fecha:doc.fecha,
-                                estudiante:{
-                                  url:'/api/v1.0/student/'+doc.Lalumno
-                                },
-                                idlab:doc._id
-                              });
-                            }else if (doc.Lestados=="pendiente") {
-                              info2.push({
-                                tipo:doc.Ltipo,
-                                nombre:doc.Lnombre,
-                                nota:doc.Lnota,
-                                alumno:doc.Lalumno,
-                                materia:doc.Lmateria,
-                                estado:doc.Lestados,
-                                fecha:doc.fecha,
-                                estudiante:{
-                                  url:'/api/v1.0/student/'+doc.Lalumno
-                                },
-                                idlab:doc._id
-                              });
-                            }
                            }
                          }
                       }
                   }
                     return;
                   }
-                  if (doc.Lestados=="terminado") {
-                    info.push({
-                      tipo:doc.Ltipo,
-                      nombre:doc.Lnombre,
-                      nota:doc.Lnota,
-                      alumno:doc.Lalumno,
-                      materia:doc.Lmateria,
-                      estado:doc.Lestados,
-                      fecha:doc.fecha,
-                      estudiante:{
-                        url:'/api/v1.0/student/'+doc.Lalumno
-                      },
-                      idlab:doc._id
-                    });
-                  }else if (doc.Lestados=="falta") {
-                    info1.push({
-                      tipo:doc.Ltipo,
-                      nombre:doc.Lnombre,
-                      nota:doc.Lnota,
-                      alumno:doc.Lalumno,
-                      materia:doc.Lmateria,
-                      estado:doc.Lestados,
-                      fecha:doc.fecha,
-                      estudiante:{
-                        url:'/api/v1.0/student/'+doc.Lalumno
-                      },
-                      idlab:doc._id
-                    });
-                  }else if (doc.Lestados=="pendiente") {
-                    info2.push({
-                      tipo:doc.Ltipo,
-                      nombre:doc.Lnombre,
-                      nota:doc.Lnota,
-                      alumno:doc.Lalumno,
-                      materia:doc.Lmateria,
-                      estado:doc.Lestados,
-                      fecha:doc.fecha,
-                      estudiante:{
-                        url:'/api/v1.0/student/'+doc.Lalumno
-                      },
-                      idlab:doc._id
-                    });
-                  }
+                  info.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    estudiante:{
+                      url:'/api/v1.0/student/'+doc.Lalumno
+                    },
+                    idlab:doc._id
+                  });
                }
                 //return;
               });
          //}
          console.log(docs.length);
-         var suma=0;
-          for (var i = 0; i < info.length; i++) {
-            suma=info[i].nota+suma;
-          }
-          var div=suma/info.length;
-        //  console.log(resultado.length);
-          var r={
-             labo: info,
-             ponderacion: div,
-             cantidad: info.length
-          };
-          var r1={
-             labo: info1,
-             cantidad: info1.length
-          };
-          var r2={
-             labo: info2,
-             cantidad: info2.length
-          };
-          var labs={terminado:r, faltan:r1, pendientes:r2};
-         var resul={materia:'materia', alumno:doca.Enombre, laboratorios:labs};
+         var resul={alumno:doca.Enombre, laboratorios:info};
          res.status(200).json(resul);
          //res.status(200).json(info);
        })
