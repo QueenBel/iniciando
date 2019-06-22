@@ -55,7 +55,7 @@ router.post("/rangos", (req, res) => {
                      }
                    }
                 }
-                return;
+                //return;
               });
          }
          res.status(200).json(info);

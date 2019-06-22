@@ -185,48 +185,53 @@ var NO = require("../../../database/collections/../../database/collections/nota"
 
         var results=diasEntreFechas(fechaDesde, fechaHasta);
     PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha _id").exec().then((docs)=>{
-          for (var i = 0; i < results.length; i++) {
+          //for (var i = 0; i < results.length; i++) {
               docs.forEach(function(doc){
+                //for (var i = 0; i < results.length; i++) {
                 if (doc.Lalumno==ida) {
-                  if (doc.fecha.getFullYear()==results[i].anio) {
-                     var m=doc.fecha.getMonth()+1;
-                     if (m==results[i].mes) {
-                       var d=doc.fecha.getDate();
-                      if (d==results[i].dia) {
-                        info.push({
-                          tipo:doc.Ltipo,
-                          nombre:doc.Lnombre,
-                          nota:doc.Lnota,
-                          alumno:doc.Lalumno,
-                          materia:doc.Lmateria,
-                          estado:doc.Lestados,
-                          fecha:doc.fecha,
-                          estudiante:{
-                            url:'/api/v1.0/student/'+doc.Lalumno
-                          },
-                          idlab:doc._id
-                        });
+                  if (results!='') {
+                    for (var i = 0; i < results.length; i++) {
+                    if (doc.fecha.getFullYear()==results[i].anio) {
+                       var m=doc.fecha.getMonth()+1;
+                       if (m==results[i].mes) {
+                         var d=doc.fecha.getDate();
+                        if (d==results[i].dia) {
+                          info.push({
+                            tipo:doc.Ltipo,
+                            nombre:doc.Lnombre,
+                            nota:doc.Lnota,
+                            alumno:doc.Lalumno,
+                            materia:doc.Lmateria,
+                            estado:doc.Lestados,
+                            fecha:doc.fecha,
+                            estudiante:{
+                              url:'/api/v1.0/student/'+doc.Lalumno
+                            },
+                            idlab:doc._id
+                          });
+                         }
                        }
-                     }
-                  }else if (results.anio==''&& results.mes==''){
-                    info.push({
-                      tipo:doc.Ltipo,
-                      nombre:doc.Lnombre,
-                      nota:doc.Lnota,
-                      alumno:doc.Lalumno,
-                      materia:doc.Lmateria,
-                      estado:doc.Lestados,
-                      fecha:doc.fecha,
-                      estudiante:{
-                        url:'/api/v1.0/student/'+doc.Lalumno
-                      },
-                      idlab:doc._id
-                    });
+                    }
                   }
-                }
-                return;
+                    return
+                  }
+                  info.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    estudiante:{
+                      url:'/api/v1.0/student/'+doc.Lalumno
+                    },
+                    idlab:doc._id
+                  });
+               }
+                //return;
               });
-         }
+         //}
          console.log(docs.length);
          var resul={alumno:doca.Enombre, laboratorios:info};
          res.status(200).json(resul);
