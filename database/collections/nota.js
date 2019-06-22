@@ -4,6 +4,7 @@ var Schema = mon.Schema;
 var notSchema = new Schema({
    Canombre : String, // materia
    Caidmat : String,
+   CaGrumat : String,
    Cadocente : String, //docente
    Caiddoc : String,
    Caci: String, //estudiante

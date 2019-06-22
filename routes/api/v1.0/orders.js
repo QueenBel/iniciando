@@ -127,6 +127,7 @@ router.post("/notas", (req, res) => {
             var notin = {
               Canombre : docm.Mnombre, // materia
               Caidmat : docm._id,
+              CaGrumat : docm.Mgrupo,
               Cadocente : docd.Dnombre, //docente
               Caiddoc : docd._id,
               Caci: doca.Eci, //estudiante

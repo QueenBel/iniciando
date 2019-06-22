@@ -171,11 +171,29 @@ router.get('/fehas', (req, res) => {
 });
 
 router.get('/labora', (req, res) => {
+  //var valor=function(){
+    var f=[];
+    LAB.find({}).exec((error, docss) =>{
+      docss.forEach(docc=>{
+        f.push(docc.tipo);
+      })
+      console.log(f);
+      //res.status(200).json(la);
+    })
+    //return f;
+  //};
+
+  la=[];
   LAB.find({}).exec((error, docs) =>{
-    res.status(200).json({
-      cantidad:docs.length,
-      va:docs
-    });
+    for (var i = 0; i < f.length; i++) {
+      docs.forEach(doc=>{
+        if (doc.tipo==f[i]) {
+          la.push(doc);
+        }
+        //return;
+      });
+    }
+    res.status(200).json(la);
   })
 });
 
