@@ -13,12 +13,12 @@ while (current.isBefore(end)) {
   current.add(1, "day");
 }
 
-console.log(result);
+//console.log(result);
 
-var mmm=moment.preciseDiff("2014-01-01 12:00:00", "2014-04-20 12:00:00");
+//var mmm=moment.preciseDiff("2014-01-01 12:00:00", "2014-04-20 12:00:00");
 // 3 months 19 days
-console.log(mmm)
-var fechas = [
+//console.log(mmm)
+/*var fechas = [
   {
     'name'     : 'Write for Envato Tuts+',
     'duration' : 120,
@@ -57,7 +57,7 @@ var fechas = [
     //"fecha" : "2019-05-15T03:24:00"
   }
 
-];
+];*/
 
 var fechaInicio = new Date('2019-04-29');
 var fechaFin    = new Date('2019-05-06');
@@ -85,22 +85,31 @@ while(fechaFin.getDate() >= fechaInicio.getDate()){
 //console.log(mydate2.getFullYear()+'-'+ mydate2.getMonth()+'-'+mydate2.getDate());
 var info=[];
 var diasEntreFechas = function(desde, hasta) {
-  	var dia_actual = desde;
-    var fechas = [];
-    var date;
-  	while (dia_actual.isSameOrBefore(hasta)) {
-       date=dia_actual.format('YYYY-MM-DD');
-    	fechas.push({'fecha': date.toString()});
-   		dia_actual.add(1, 'days');
-  	}
-  	return fechas;
+  var dia_actual = desde;
+  var fechas = [];
+  var date, date1, date2;
+  while (dia_actual.isSameOrBefore(hasta)) {
+     date=dia_actual.format('YYYY');
+     date1=dia_actual.format('MM');
+     date2=dia_actual.format('DD');
+     fechas.push({'anio': date, 'mes': date1, 'dia': date2});
+     dia_actual.add(1, 'days');
+  }
+  return fechas;
 };
 
-var desde = moment("2019-05-01");
-var hasta = moment("2019-05-10");
+//var desde = moment("2019-05-25");
+//var hasta = moment("2019-06-01");
+var desde = moment("");
+var hasta = moment("");
 var results = diasEntreFechas(desde, hasta);
-//console.log(results);
+if (results=='') {
+  console.log('results');
+}
+//console.log(results[0]);
+
 console.log("=========================================");
+console.log(results.length);
 /*console.log(fechas.length);
 for (var i = 0; i < results.length; i++) {
 var df;

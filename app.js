@@ -15,6 +15,7 @@ var servi = require('./routes/api/v1.0/servi');
 var prod1 = require('./routes/api/v1.0/products');
 var orde1 = require('./routes/api/v1.0/orders');
 var orde2 = require('./routes/api/v1.0/total');
+var orde3 = require('./routes/api/v1.0/alumnos');
 
 var app = express();
 
@@ -41,6 +42,7 @@ app.use('/api/v1.0/', servi);
 app.use('/api/v1.0/', prod1);
 app.use('/api/v1.0/', orde1);
 app.use('/api/v1.0/', orde2);
+app.use('/api/v1.0/', orde3);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
