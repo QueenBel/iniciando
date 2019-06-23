@@ -39,311 +39,98 @@ router.post(/doceAMD\/[a-z0-9]{1,}$/, (req, res) => {
          });
          return;
        }
-      PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha").exec().then((docs)=>{
+      PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Ldocente Lmateria Lestados fecha").exec().then((docs)=>{
         if (docs != null) {
           docs.forEach((doc)=>{
             var m=doc.fecha.getMonth()+1;
             var d=doc.fecha.getDate();
             var a=doc.fecha.getFullYear();
-            if (iddo==idm.Mdocente && doc.Lmateria==idm) {
+            if (doc.Ldocente==iddo) {
               if (a==anio && mes=='' && dia=='') {
-                if (doc.Lestados=="terminado") {
-                  info.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="falta") {
-                  info1.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="pendiente") {
-                  info2.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }
+                 labo.push({
+                   tipo:doc.Ltipo,
+                   nombre:doc.Lnombre,
+                   nota:doc.Lnota,
+                   alumno:doca.Enombre,
+                   materia:doc.Lmateria,
+                   estado:doc.Lestados,
+                   fecha:doc.fecha
+                 });
               }else if (a==anio && m==mes && dia=='') {
-                if (doc.Lestados=="terminado") {
-                  info.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="falta") {
-                  info1.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="pendiente") {
-                  info2.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }
+                labo.push({
+                  tipo:doc.Ltipo,
+                  nombre:doc.Lnombre,
+                  nota:doc.Lnota,
+                  alumno:doca.Enombre,
+                  materia:doc.Lmateria,
+                  estado:doc.Lestados,
+                  fecha:doc.fecha
+                });
               }else if (a==anio && mes=='' && d==dia) {
-                if (doc.Lestados=="terminado") {
-                  info.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="falta") {
-                  info1.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="pendiente") {
-                  info2.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }
+                labo.push({
+                  tipo:doc.Ltipo,
+                  nombre:doc.Lnombre,
+                  nota:doc.Lnota,
+                  alumno:doca.Enombre,
+                  materia:doc.Lmateria,
+                  estado:doc.Lestados,
+                  fecha:doc.fecha
+                });
               }else if (anio=='' && m==mes && d==dia) {
-                if (doc.Lestados=="terminado") {
-                  info.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="falta") {
-                  info1.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="pendiente") {
-                  info2.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }
+                labo.push({
+                  tipo:doc.Ltipo,
+                  nombre:doc.Lnombre,
+                  nota:doc.Lnota,
+                  alumno:doca.Enombre,
+                  materia:doc.Lmateria,
+                  estado:doc.Lestados,
+                  fecha:doc.fecha
+                });
               }else if (anio=='' && m==mes && dia=='') {
-                if (doc.Lestados=="terminado") {
-                  info.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="falta") {
-                  info1.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="pendiente") {
-                  info2.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }
+                labo.push({
+                  tipo:doc.Ltipo,
+                  nombre:doc.Lnombre,
+                  nota:doc.Lnota,
+                  alumno:doca.Enombre,
+                  materia:doc.Lmateria,
+                  estado:doc.Lestados,
+                  fecha:doc.fecha
+                });
               }else if (anio=='' && mes=='' && d==dia) {
-                if (doc.Lestados=="terminado") {
-                  info.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="falta") {
-                  info1.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="pendiente") {
-                  info2.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }
+                labo.push({
+                  tipo:doc.Ltipo,
+                  nombre:doc.Lnombre,
+                  nota:doc.Lnota,
+                  alumno:doca.Enombre,
+                  materia:doc.Lmateria,
+                  estado:doc.Lestados,
+                  fecha:doc.fecha
+                });
               }else if (a==anio && m==mes && d==dia) {
-                if (doc.Lestados=="terminado") {
-                  info.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="falta") {
-                  info1.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="pendiente") {
-                  info2.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }
+                labo.push({
+                  tipo:doc.Ltipo,
+                  nombre:doc.Lnombre,
+                  nota:doc.Lnota,
+                  alumno:doca.Enombre,
+                  materia:doc.Lmateria,
+                  estado:doc.Lestados,
+                  fecha:doc.fecha
+                });
               }else if (anio=='' && mes=='' && dia=='') {
-                if (doc.Lestados=="terminado") {
-                  info.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="falta") {
-                  info1.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }else if (doc.Lestados=="pendiente") {
-                  info2.push({
-                    tipo:doc.Ltipo,
-                    nombre:doc.Lnombre,
-                    nota:doc.Lnota,
-                    alumno:doc.Lalumno,
-                    materia:doc.Lmateria,
-                    estado:doc.Lestados,
-                    fecha:doc.fecha,
-                    idlab:doc._id
-                  });
-                }
+                labo.push({
+                  tipo:doc.Ltipo,
+                  nombre:doc.Lnombre,
+                  nota:doc.Lnota,
+                  alumno:doca.Enombre,
+                  materia:doc.Lmateria,
+                  estado:doc.Lestados,
+                  fecha:doc.fecha
+                });
               }
             }
           });
           console.log(docs.length);
-           var r={
-              labo: info,
-              cantidad: info.length
-           };
-           var r1={
-              labo: info1,
-              cantidad: info1.length
-           };
-           var r2={
-              labo: info2,
-              cantidad: info2.length
-           };
-           var labs={terminado:r, faltan:r1, pendientes:r2};
-          var resul={materia:docm.Mnombre, grupo:docm.Mgrupo, docente:docd.Dnombre, laboratorios:labs};
+          var resul={docente:docd.Dnombre, laboratorios:labo};
           res.status(200).json(resul);
           return;
         }
@@ -397,129 +184,56 @@ router.post(/doceAMD\/[a-z0-9]{1,}$/, (req, res) => {
           var fechaHasta = moment(req.body.hasta);
 
           var results=diasEntreFechas(fechaDesde, fechaHasta);
-      PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha _id").exec().then((docs)=>{
-               docs.forEach(function(doc){
-                  if (idm.Mdocente==iddo && doc.Lmateria==idm) {
-                    if (results!='') {
-                      for (var i = 0; i < results.length; i++) {
-                        if (doc.fecha.getFullYear()==results[i].anio) {
-                           var m=doc.fecha.getMonth()+1;
-                           if (m==results[i].mes) {
-                             var d=doc.fecha.getDate();
-                            if (d==results[i].dia) {
-                              if (doc.Lestados=="terminado") {
-                                info.push({
-                                  tipo:doc.Ltipo,
-                                  nombre:doc.Lnombre,
-                                  nota:doc.Lnota,
-                                  alumno:doc.Lalumno,
-                                  materia:doc.Lmateria,
-                                  estado:doc.Lestados,
-                                  fecha:doc.fecha,
-                                  estudiante:{
-                                    url:'/api/v1.0/student/'+doc.Lalumno
-                                  },
-                                  idlab:doc._id
-                                });
-                              }else if (doc.Lestados=="falta") {
-                                info1.push({
-                                  tipo:doc.Ltipo,
-                                  nombre:doc.Lnombre,
-                                  nota:doc.Lnota,
-                                  alumno:doc.Lalumno,
-                                  materia:doc.Lmateria,
-                                  estado:doc.Lestados,
-                                  fecha:doc.fecha,
-                                  estudiante:{
-                                    url:'/api/v1.0/student/'+doc.Lalumno
-                                  },
-                                  idlab:doc._id
-                                });
-                              }else if (doc.Lestados=="pendiente") {
-                                info2.push({
-                                  tipo:doc.Ltipo,
-                                  nombre:doc.Lnombre,
-                                  nota:doc.Lnota,
-                                  alumno:doc.Lalumno,
-                                  materia:doc.Lmateria,
-                                  estado:doc.Lestados,
-                                  fecha:doc.fecha,
-                                  estudiante:{
-                                    url:'/api/v1.0/student/'+doc.Lalumno
-                                  },
-                                  idlab:doc._id
-                                });
-                              }
-                             }
-                           }
+          PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Ldocente Lestados fecha _id").exec().then((docs)=>{
+                   docs.forEach(function(doc){
+                      if (doc.Ldocente==iddo) {
+                        if (results!='') {
+                          for (var i = 0; i < results.length; i++) {
+                            if (doc.fecha.getFullYear()==results[i].anio) {
+                               var m=doc.fecha.getMonth()+1;
+                               if (m==results[i].mes) {
+                                 var d=doc.fecha.getDate();
+                                if (d==results[i].dia) {
+                                    info.push({
+                                      tipo:doc.Ltipo,
+                                      nombre:doc.Lnombre,
+                                      nota:doc.Lnota,
+                                      alumno:doc.Lalumno,
+                                      materia:doc.Lmateria,
+                                      estado:doc.Lestados,
+                                      fecha:doc.fecha,
+                                      estudiante:{
+                                        url:'/api/v1.0/student/'+doc.Lalumno
+                                      },
+                                      idlab:doc._id
+                                    });
+                                 }
+                               }
+                            }
                         }
-                    }
-                      return;
-                    }
-                    if (doc.Lestados=="terminado") {
-                      info.push({
-                        tipo:doc.Ltipo,
-                        nombre:doc.Lnombre,
-                        nota:doc.Lnota,
-                        alumno:doc.Lalumno,
-                        materia:doc.Lmateria,
-                        estado:doc.Lestados,
-                        fecha:doc.fecha,
-                        estudiante:{
-                          url:'/api/v1.0/student/'+doc.Lalumno
-                        },
-                        idlab:doc._id
-                      });
-                    }else if (doc.Lestados=="falta") {
-                      info1.push({
-                        tipo:doc.Ltipo,
-                        nombre:doc.Lnombre,
-                        nota:doc.Lnota,
-                        alumno:doc.Lalumno,
-                        materia:doc.Lmateria,
-                        estado:doc.Lestados,
-                        fecha:doc.fecha,
-                        estudiante:{
-                          url:'/api/v1.0/student/'+doc.Lalumno
-                        },
-                        idlab:doc._id
-                      });
-                    }else if (doc.Lestados=="pendiente") {
-                      info2.push({
-                        tipo:doc.Ltipo,
-                        nombre:doc.Lnombre,
-                        nota:doc.Lnota,
-                        alumno:doc.Lalumno,
-                        materia:doc.Lmateria,
-                        estado:doc.Lestados,
-                        fecha:doc.fecha,
-                        estudiante:{
-                          url:'/api/v1.0/student/'+doc.Lalumno
-                        },
-                        idlab:doc._id
-                      });
-                    }
-                 }
-                  //return;
-                });
-           //}
-           console.log(docs.length);
-            var r={
-               labo: info,
-               cantidad: info.length
-            };
-            var r1={
-               labo: info1,
-               cantidad: info1.length
-            };
-            var r2={
-               labo: info2,
-               cantidad: info2.length
-            };
-            var labs={terminado:r, faltan:r1, pendientes:r2};
-           var resul={materia:docm.Mnombre, grupo:docm.Mgrupo, docente:docd.Dnombre, laboratorios:labs};
-           res.status(200).json(resul);
-           //res.status(200).json(info);
+                          return;
+                        }
+                        info.push({
+                          tipo:doc.Ltipo,
+                          nombre:doc.Lnombre,
+                          nota:doc.Lnota,
+                          alumno:doc.Lalumno,
+                          materia:doc.Lmateria,
+                          estado:doc.Lestados,
+                          fecha:doc.fecha,
+                          estudiante:{
+                            url:'/api/v1.0/student/'+doc.Lalumno
+                          },
+                          idlab:doc._id
+                        });
+                     }
+                      //return;
+                    });
+               //}
+               console.log(docs.length);
+               var resul={docente:docd.Dnombre, laboratorios:labo};
+               res.status(200).json(resul);
+               //res.status(200).json(info);
          })
        });
      });

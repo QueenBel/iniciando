@@ -7,6 +7,7 @@ var pracSchema = new Schema({
    Lnota: Number,
    Lalumno: String,
    Lmateria:String,
+   Ldocente:String,
    Lestados:String,
    fecha: Date
 });

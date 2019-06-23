@@ -206,6 +206,7 @@ router.post("/practica", (req, res) => {
     Lnota: req.body.nota,
     Lalumno: IDes,
     Lmateria:IDma,
+    Ldocente:IDdo,
     fecha: new Date()
   };
   var praData = new PRA(practiqe);

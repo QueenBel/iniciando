@@ -318,6 +318,16 @@ var NO = require("../../../database/collections/../../database/collections/nota"
                  estado:doc.Lestados,
                  fecha:doc.fecha
                });
+             }else if (anio=='' && mes=='' && dia=='') {
+               labo.push({
+                 tipo:doc.Ltipo,
+                 nombre:doc.Lnombre,
+                 nota:doc.Lnota,
+                 alumno:doca.Enombre,
+                 materia:doc.Lmateria,
+                 estado:doc.Lestados,
+                 fecha:doc.fecha
+               });
              }
            }
          });
