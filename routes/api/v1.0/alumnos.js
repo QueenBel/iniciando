@@ -15,122 +15,344 @@ var PRA = require("../../../database/collections/../../database/collections/prac
 var CUE = require("../../../database/collections/../../database/collections/cuestionario");
 /*=========== CALIFICACION CALIFICACION CALIFICACION CALIFICACION==========*/
 var NO = require("../../../database/collections/../../database/collections/nota");
- router.post(/alumAMD\/[a-z0-9]{1,}$/, (req, res) => {
-   var dia=req.body.dia;
-   var mes=req.body.mes;
-   var anio=req.body.anio;
-   var url=req.url;
-   var ida= url.split("/")[2];
-   var labo=[];
-   ALU.findOne({_id:ida}).exec((err, doca)=>{
-     if (err) {
-        res.status(500).json({
-            msn: "error"
-        });
-        return;
-      }
-     PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha").exec().then((docs)=>{
-       if (docs != null) {
-
-         docs.forEach((doc)=>{
-           var m=doc.fecha.getMonth()+1;
-           var d=doc.fecha.getDate();
-           var a=doc.fecha.getFullYear();
-           if (doc.Lalumno==ida) {
-             if (a==anio && mes=='' && dia=='') {
-                labo.push({
-                  tipo:doc.Ltipo,
-                  nombre:doc.Lnombre,
-                  nota:doc.Lnota,
-                  alumno:doca.Enombre,
-                  materia:doc.Lmateria,
-                  estado:doc.Lestados,
-                  fecha:doc.fecha
-                });
-             }else if (a==anio && m==mes && dia=='') {
-               labo.push({
-                 tipo:doc.Ltipo,
-                 nombre:doc.Lnombre,
-                 nota:doc.Lnota,
-                 alumno:doca.Enombre,
-                 materia:doc.Lmateria,
-                 estado:doc.Lestados,
-                 fecha:doc.fecha
-               });
-             }else if (a==anio && mes=='' && d==dia) {
-               labo.push({
-                 tipo:doc.Ltipo,
-                 nombre:doc.Lnombre,
-                 nota:doc.Lnota,
-                 alumno:doca.Enombre,
-                 materia:doc.Lmateria,
-                 estado:doc.Lestados,
-                 fecha:doc.fecha
-               });
-             }else if (anio=='' && m==mes && d==dia) {
-               labo.push({
-                 tipo:doc.Ltipo,
-                 nombre:doc.Lnombre,
-                 nota:doc.Lnota,
-                 alumno:doca.Enombre,
-                 materia:doc.Lmateria,
-                 estado:doc.Lestados,
-                 fecha:doc.fecha
-               });
-             }else if (anio=='' && m==mes && dia=='') {
-               labo.push({
-                 tipo:doc.Ltipo,
-                 nombre:doc.Lnombre,
-                 nota:doc.Lnota,
-                 alumno:doca.Enombre,
-                 materia:doc.Lmateria,
-                 estado:doc.Lestados,
-                 fecha:doc.fecha
-               });
-             }else if (anio=='' && mes=='' && d==dia) {
-               labo.push({
-                 tipo:doc.Ltipo,
-                 nombre:doc.Lnombre,
-                 nota:doc.Lnota,
-                 alumno:doca.Enombre,
-                 materia:doc.Lmateria,
-                 estado:doc.Lestados,
-                 fecha:doc.fecha
-               });
-             }else if (a==anio && m==mes && d==dia) {
-               labo.push({
-                 tipo:doc.Ltipo,
-                 nombre:doc.Lnombre,
-                 nota:doc.Lnota,
-                 alumno:doca.Enombre,
-                 materia:doc.Lmateria,
-                 estado:doc.Lestados,
-                 fecha:doc.fecha
-               });
-             }else if (anio=='' && mes=='' && dia=='') {
-               labo.push({
-                 tipo:doc.Ltipo,
-                 nombre:doc.Lnombre,
-                 nota:doc.Lnota,
-                 alumno:doca.Enombre,
-                 materia:doc.Lmateria,
-                 estado:doc.Lestados,
-                 fecha:doc.fecha
-               });
-             }
-           }
+router.post(/alumAMD\/[a-z0-9]{1,}$/, (req, res) => {
+  var dia=req.body.dia;
+  var mes=req.body.mes;
+  var anio=req.body.anio;
+  var url=req.url;
+  var ida= url.split("/")[2];
+  var info=[];
+  var info1=[];
+  var info2=[];
+  let idm=req.body.idma;
+  ALU.findOne({_id:ida}).exec((err, doca)=>{
+    if (err) {
+       res.status(500).json({
+           msn: "error"
+       });
+       return;
+     }MAT.findOne({_id:idm}).exec((err, docm)=>{
+       if (err) {
+         res.status(500).json({
+             msn: "error"
          });
-         console.log(docs.length);
-         var resul={alumno:doca.Enombre, laboratorios:labo};
-         res.status(200).json(resul);
          return;
        }
-       res.status(204).json({
-         "msn" : "No existe el recurso "
-       })
-     });
-   })
-  });
+      PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha").exec().then((docs)=>{
+        if (docs != null) {
+          docs.forEach((doc)=>{
+            var m=doc.fecha.getMonth()+1;
+            var d=doc.fecha.getDate();
+            var a=doc.fecha.getFullYear();
+            if (doc.Lalumno==ida && doc.Lmateria==idm) {
+              if (a==anio && mes=='' && dia=='') {
+                if (doc.Lestados=="terminado") {
+                  info.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="falta") {
+                  info1.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="pendiente") {
+                  info2.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }
+              }else if (a==anio && m==mes && dia=='') {
+                if (doc.Lestados=="terminado") {
+                  info.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="falta") {
+                  info1.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="pendiente") {
+                  info2.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }
+              }else if (a==anio && mes=='' && d==dia) {
+                if (doc.Lestados=="terminado") {
+                  info.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="falta") {
+                  info1.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="pendiente") {
+                  info2.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }
+              }else if (anio=='' && m==mes && d==dia) {
+                if (doc.Lestados=="terminado") {
+                  info.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="falta") {
+                  info1.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="pendiente") {
+                  info2.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }
+              }else if (anio=='' && m==mes && dia=='') {
+                if (doc.Lestados=="terminado") {
+                  info.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="falta") {
+                  info1.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="pendiente") {
+                  info2.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }
+              }else if (anio=='' && mes=='' && d==dia) {
+                if (doc.Lestados=="terminado") {
+                  info.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="falta") {
+                  info1.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="pendiente") {
+                  info2.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }
+              }else if (a==anio && m==mes && d==dia) {
+                if (doc.Lestados=="terminado") {
+                  info.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="falta") {
+                  info1.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="pendiente") {
+                  info2.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }
+              }else if (anio=='' && mes=='' && dia=='') {
+                if (doc.Lestados=="terminado") {
+                  info.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="falta") {
+                  info1.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }else if (doc.Lestados=="pendiente") {
+                  info2.push({
+                    tipo:doc.Ltipo,
+                    nombre:doc.Lnombre,
+                    nota:doc.Lnota,
+                    alumno:doc.Lalumno,
+                    materia:doc.Lmateria,
+                    estado:doc.Lestados,
+                    fecha:doc.fecha,
+                    idlab:doc._id
+                  });
+                }
+              }
+            }
+          });
+          console.log(docs.length);
+           var r={
+              labo: info,
+              cantidad: info.length
+           };
+           var r1={
+              labo: info1,
+              cantidad: info1.length
+           };
+           var r2={
+              labo: info2,
+              cantidad: info2.length
+           };
+           var labs={terminado:r, faltan:r1, pendientes:r2};
+          var resul={materia:docm.Mnombre, grupo:docm.Mgrupo, alumno:doca.Enombre, laboratorios:labs};
+          res.status(200).json(resul);
+          return;
+        }
+        res.status(204).json({
+          "msn" : "No existe el recurso "
+        })
+      });
+    });
+  })
+});
   /*alumno unico q mostrara todo los lab de todas sus materias*/
   router.post(/alumRangos\/[a-z0-9]{1,}$/, (req, res) => {
     var url=req.url
