@@ -221,7 +221,8 @@ var NO = require("../../../database/collections/../../database/collections/nota"
      docsm.forEach((docm)=>{
        mm.push({'id':docm._id, 'name':docm.Mnombre, 'group':docm.Mgrupo});
      });
-     res.status(200).json(mm);
+     var rrr={cantidad:mm.length, materias:mm}
+     res.status(200).json(rrr);
      //console.log(mm[0]);
    });
  });
