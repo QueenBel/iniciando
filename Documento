@@ -1,0 +1,18 @@
+MAT.findOne({_id:labo[i].materia}).exec((err, docm)=>{
+          if (err) {
+            res.status(500).json({
+                msn: "error "
+            });
+            return;
+          }
+          labo.find({})("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha").exec().then((docs)=>{
+            docs.forEach((doc)=>{
+            var m=doc.Lmateria;
+            if (m==labo[i].materia && doc.Lestados=="terminado") {
+               resultado.push({
+                  'tipo':doc.Ltipo,
+                  'nombre':doc.Lnombre,
+                  'nota':doc.Lnota,
+                  'estado':doc.Lestados,
+                  'fecha':doc.fecha
+               });

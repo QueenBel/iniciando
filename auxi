@@ -1,0 +1,75 @@
+seguridad 
+grupo 1
+mat=5d004a721975ee41110c7565
+alum=5d002d3489949937186db928
+doc=5cfbda784c52311fd478fccf
+grupo 2
+mat=5d004a7a1975ee41110c7566
+alum=5d003e690c52823b1cbac0d8
+doc=5cfbda784c52311fd478fccf
+seminario
+grupo 1
+mat=5d004abc1975ee41110c7568
+alum=5d002d3489949937186db928
+doc=5cfbda864c52311fd478fcd0
+grupo 2
+mat=5d004ab71975ee41110c7567
+alum=5d003e690c52823b1cbac0d8
+doc=5cfbda864c52311fd478fcd0
+
+
+router.post("/rangos", (req, res) => {
+  var info=[];
+
+  var diasEntreFechas = function(fechaDesde, fechaHasta) {
+  	var dia_actual = fechaDesde;
+    var fechas = [];
+    var date, date1, date2;
+  	while (dia_actual.isSameOrBefore(fechaHasta)) {
+       date=dia_actual.format('YYYY');
+       date1=dia_actual.format('MM');
+       date2=dia_actual.format('DD');
+       fechas.push({'anio': date, 'mes': date1, 'dia': date2});
+    	 dia_actual.add(1, 'days');
+  	}
+  	return fechas;
+  };
+  var fechaDesde = moment(req.body.desde);
+  var fechaHasta = moment(req.body.hasta);
+
+  var results=diasEntreFechas(fechaDesde, fechaHasta);
+    PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha").exec().then((docs)=>{
+          for (var i = 0; i < results.length; i++) {
+              docs.forEach(function(doc){
+                if (doc.fecha.getFullYear()==results[i].anio) {
+                   var m=doc.fecha.getMonth()+1;
+                   if (m==results[i].mes) {
+                     var d=doc.fecha.getDate();
+                    if (d==results[i].dia) {
+                      info.push({
+                        tipo:doc.Ltipo,
+                        nombre:doc.Lnombre,
+                        nota:doc.Lnota,
+                        alumno:doc.Lalumno,
+                        materia:doc.Lmateria,
+                        estado:doc.Lestados,
+                        fecha:doc.fecha,
+                        estudiante:{
+                          url:'/api/v1.0/student/'+doc.Lalumno
+                        }
+                      });
+                     }
+                   }
+                }
+                return;
+              });
+         }
+         res.status(200).json(info);
+  }).catch(err => {
+       console.log(err);
+       res.status(500).json({
+       error: err
+       });
+    });
+});
+

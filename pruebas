@@ -1,0 +1,38 @@
+else {
+                    info.push({
+                      tipo:doc.Ltipo,
+                      nombre:doc.Lnombre,
+                      nota:doc.Lnota,
+                      alumno:doc.Lalumno,
+                      materia:doc.Lmateria,
+                      estado:doc.Lestados,
+                      fecha:doc.fecha,
+                      estudiante:{
+                        url:'/api/v1.0/student/'+doc.Lalumno
+                      },
+                      idlab:doc._id
+                    });
+                    //return;
+                  }
+====================================
+if (doc.fecha.getFullYear()==results[i].anio) {
+                     var m=doc.fecha.getMonth()+1;
+                     if (m==results[i].mes) {
+                       var d=doc.fecha.getDate();
+                      if (d==results[i].dia) {
+                        info.push({
+                          tipo:doc.Ltipo,
+                          nombre:doc.Lnombre,
+                          nota:doc.Lnota,
+                          alumno:doc.Lalumno,
+                          materia:doc.Lmateria,
+                          estado:doc.Lestados,
+                          fecha:doc.fecha,
+                          estudiante:{
+                            url:'/api/v1.0/student/'+doc.Lalumno
+                          },
+                          idlab:doc._id
+                        });
+                       }
+                     }
+                  }
