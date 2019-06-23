@@ -1,0 +1,125 @@
+if (results!='') {
+                       for (var i = 0; i < results.length; i++) {
+                         if (doc.fecha.getFullYear()==results[i].anio) {
+                            var m=doc.fecha.getMonth()+1;
+                            if (m==results[i].mes) {
+                              var d=doc.fecha.getDate();
+                             if (d==results[i].dia) {
+                                 info.push({
+                                   tipo:doc.Ltipo,
+                                   nombre:doc.Lnombre,
+                                   nota:doc.Lnota,
+                                   alumno:doc.Lalumno,
+                                   materia:doc.Lmateria,
+                                   estado:doc.Lestados,
+                                   fecha:doc.fecha,
+                                   estudiante:{
+                                     url:'/api/v1.0/student/'+doc.Lalumno
+                                   },
+                                   idlab:doc._id
+                                 });
+                              }
+                            }
+                         }
+                     }
+                       return;
+                     }
+
+//////////////////////////////////////////////////////////////////
+
+  router.post(/alumRangos\/[a-z0-9]{1,}$/, (req, res) => {
+    var url=req.url
+    var ida= url.split("/")[2];
+    let idm=req.body.idma;
+    var mm=[];
+    ALU.findOne({_id:ida}).exec((err, doca)=>{
+      if (err) {
+         res.status(500).json({
+             msn: "error"
+         });
+         return;
+       }
+      MAT.findOne({_id:idm}).exec((err, docm)=>{
+      if (err) {
+        res.status(500).json({
+            msn: "error"
+        });
+        return;
+        }
+        //var rrr={cantidad:mm.length, materias:mm}
+       //res.status(200).json(rrr);
+        var info=[];
+        var info1=[];
+        var info2=[];
+     PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha _id").exec().then((docs)=>{
+              docs.forEach(function(doc){
+                if (doc.Lalumno==ida) {
+                  if (doc.Lmateria==idm) {
+                    info.push({
+                      tipo:doc.Ltipo,
+                      nombre:doc.Lnombre,
+                      nota:doc.Lnota,
+                      alumno:doc.Lalumno,
+                      materia:doc.Lmateria,
+                      estado:doc.Lestados,
+                      fecha:doc.fecha,
+                      estudiante:{
+                        url:'/api/v1.0/student/'+doc.Lalumno
+                      },
+                      idlab:doc._id
+                    });
+                  }
+                 }
+               });
+          console.log(docs.length);
+          var resul={materia:docm.Mnombre, grupo:docm.Mgrupo, alumno:doca.Enombre, laboratorios:info};
+          res.status(200).json(resul);
+          //res.status(200).json(info);
+        })
+      });
+     })
+   });
+***********************************************************
+
+     PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha _id").exec().then((docs)=>{
+              docs.forEach(function(doc){
+                if (doc.Lalumno==ida) {
+                  if (doc.Lmateria==idm) {
+                    info.push({
+                      tipo:doc.Ltipo,
+                      nombre:doc.Lnombre,
+                      nota:doc.Lnota,
+                      alumno:doc.Lalumno,
+                      materia:doc.Lmateria,
+                      estado:doc.Lestados,
+                      fecha:doc.fecha,
+                      estudiante:{
+                        url:'/api/v1.0/student/'+doc.Lalumno
+                      },
+                      idlab:doc._id
+                    });
+                  }
+                 }
+               });
+          console.log(docs.length);
+          var resul={materia:docm.Mnombre, grupo:docm.Mgrupo, alumno:doca.Enombre, laboratorios:info};
+          res.status(200).json(resul);
+          //res.status(200).json(info);
+        })
+
+/////////////////////////////////////////////////////////
+var m=mm.length;
+         var r="";
+         var c=0;
+         for (var i = 0; i < mm.length; i++) {
+
+           if (mm[i]=="5d004ab71975ee41110c7567") {
+              r=mm[i];
+           }
+         }
+         res.status(200).json({rr:r, mmm:mm[0], alum:doca.Enombre});
+
+          console.log(mm.length);
+
+---------------------------------------------------------------
+let idm=req.body.idma;
