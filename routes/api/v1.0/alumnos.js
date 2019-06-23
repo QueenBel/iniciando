@@ -361,7 +361,6 @@ router.post(/alumAMD\/[a-z0-9]{1,}$/, (req, res) => {
     var mm=new Array;
     var mm1=new Array;
     var mm2=new Array;
-    var info=[];
     ALU.findOne({_id:ida}).exec((err, doca)=>{
       if (err) {
          res.status(500).json({

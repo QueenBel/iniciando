@@ -47,81 +47,82 @@ router.post(/doceAMD\/[a-z0-9]{1,}$/, (req, res) => {
             var a=doc.fecha.getFullYear();
             if (doc.Ldocente==iddo) {
               if (a==anio && mes=='' && dia=='') {
-                 labo.push({
+                 info.push({
                    tipo:doc.Ltipo,
                    nombre:doc.Lnombre,
                    nota:doc.Lnota,
-                   alumno:doca.Enombre,
+                   alumno:doc.Lalumno,
                    materia:doc.Lmateria,
                    estado:doc.Lestados,
                    fecha:doc.fecha
                  });
               }else if (a==anio && m==mes && dia=='') {
-                labo.push({
+                info.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  alumno:doca.Enombre,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   estado:doc.Lestados,
                   fecha:doc.fecha
                 });
               }else if (a==anio && mes=='' && d==dia) {
-                labo.push({
+                info.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  alumno:doca.Enombre,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   estado:doc.Lestados,
                   fecha:doc.fecha
                 });
               }else if (anio=='' && m==mes && d==dia) {
-                labo.push({
+                info.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  alumno:doca.Enombre,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
+                  alumno:doc.Lalumno,
                   estado:doc.Lestados,
                   fecha:doc.fecha
                 });
               }else if (anio=='' && m==mes && dia=='') {
-                labo.push({
+                info.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  alumno:doca.Enombre,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   estado:doc.Lestados,
                   fecha:doc.fecha
                 });
               }else if (anio=='' && mes=='' && d==dia) {
-                labo.push({
+                info.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  alumno:doca.Enombre,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   estado:doc.Lestados,
                   fecha:doc.fecha
                 });
               }else if (a==anio && m==mes && d==dia) {
-                labo.push({
+                info.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  alumno:doca.Enombre,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   estado:doc.Lestados,
                   fecha:doc.fecha
                 });
               }else if (anio=='' && mes=='' && dia=='') {
-                labo.push({
+                info.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  alumno:doca.Enombre,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   estado:doc.Lestados,
                   fecha:doc.fecha
@@ -130,7 +131,7 @@ router.post(/doceAMD\/[a-z0-9]{1,}$/, (req, res) => {
             }
           });
           console.log(docs.length);
-          var resul={docente:docd.Dnombre, laboratorios:labo};
+          var resul={docente:docd.Dnombre, laboratorios:info};
           res.status(200).json(resul);
           return;
         }
@@ -149,7 +150,6 @@ router.post(/doceAMD\/[a-z0-9]{1,}$/, (req, res) => {
     var mm=new Array;
     var mm1=new Array;
     var mm2=new Array;
-    var info=[];
     DOCE.findOne({_id:iddo}).exec((err, docd)=>{
       if (err) {
          res.status(500).json({
@@ -231,7 +231,7 @@ router.post(/doceAMD\/[a-z0-9]{1,}$/, (req, res) => {
                     });
                //}
                console.log(docs.length);
-               var resul={docente:docd.Dnombre, laboratorios:labo};
+               var resul={docente:docd.Dnombre, laboratorios:info};
                res.status(200).json(resul);
                //res.status(200).json(info);
          })
