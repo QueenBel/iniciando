@@ -32,33 +32,49 @@ router.post("/rangos", (req, res) => {
   var fechaHasta = moment(req.body.hasta);
 
   var results=diasEntreFechas(fechaDesde, fechaHasta);
-    PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha").exec().then((docs)=>{
-          for (var i = 0; i < results.length; i++) {
-              docs.forEach(function(doc){
+    PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Ldocente Lmateria Lestados fecha _id").exec().then((docs)=>{
+          docs.forEach(function(doc){
+            if (results!='') {
+              for (var i = 0; i < results.length; i++) {
                 if (doc.fecha.getFullYear()==results[i].anio) {
                    var m=doc.fecha.getMonth()+1;
                    if (m==results[i].mes) {
                      var d=doc.fecha.getDate();
                     if (d==results[i].dia) {
-                      info.push({
-                        tipo:doc.Ltipo,
-                        nombre:doc.Lnombre,
-                        nota:doc.Lnota,
-                        alumno:doc.Lalumno,
-                        materia:doc.Lmateria,
-                        estado:doc.Lestados,
-                        fecha:doc.fecha,
-                        estudiante:{
-                          url:'/api/v1.0/student/'+doc.Lalumno
-                        }
-                      });
+                        info.push({
+                          tipo:doc.Ltipo,
+                          nombre:doc.Lnombre,
+                          nota:doc.Lnota,
+                          alumno:doc.Lalumno,
+                          materia:doc.Lmateria,
+                          estado:doc.Lestados,
+                          fecha:doc.fecha,
+                          estudiante:{
+                            url:'/api/v1.0/student/'+doc.Lalumno
+                          },
+                          idlab:doc._id
+                        });
                      }
                    }
                 }
-                //return;
-              });
-         }
-         res.status(200).json(info);
+            }
+              return;
+            }
+            info.push({
+              tipo:doc.Ltipo,
+              nombre:doc.Lnombre,
+              nota:doc.Lnota,
+              alumno:doc.Lalumno,
+              materia:doc.Lmateria,
+              estado:doc.Lestados,
+              fecha:doc.fecha,
+              estudiante:{
+                url:'/api/v1.0/student/'+doc.Lalumno
+              },
+              idlab:doc._id
+            });
+          });
+         res.status(200).json({cant:info.length, Info:info});
   }).catch(err => {
        console.log(err);
        res.status(500).json({
@@ -73,13 +89,14 @@ router.post("/anmedi", (req, res) => {
   var anio=req.body.anio;
   var lab=req.body.lab;
   var labo=[];
-  PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha").exec().then((docs)=>{
+  PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Ldocente Lmateria Lestados fecha _id").exec().then((docs)=>{
     if (docs != null) {
       docs.forEach((doc)=>{
         var m=doc.fecha.getMonth()+1;
         var d=doc.fecha.getDate();
         var a=doc.fecha.getFullYear();
-        if (a==anio && mes=='' && dia=='') {
+        var l=doc.Ltipo;
+        if (l==lab && a==anio && mes=='' && dia=='') {
            labo.push({
              tipo:doc.Ltipo,
              nombre:doc.Lnombre,
@@ -88,11 +105,12 @@ router.post("/anmedi", (req, res) => {
              materia:doc.Lmateria,
              estado:doc.Lestados,
              fecha:doc.fecha,
+             idlab:doc._id,
              estudiante:{
                url:'/api/v1.0/student/'+doc.Lalumno
              }
            });
-        }else if (a==anio && m==mes && dia=='') {
+        }else if (a==anio && mes=='' && dia=='' && lab==''){
           labo.push({
             tipo:doc.Ltipo,
             nombre:doc.Lnombre,
@@ -101,11 +119,12 @@ router.post("/anmedi", (req, res) => {
             materia:doc.Lmateria,
             estado:doc.Lestados,
             fecha:doc.fecha,
+            idlab:doc._id,
             estudiante:{
               url:'/api/v1.0/student/'+doc.Lalumno
             }
           });
-        }else if (a==anio && mes=='' && d==dia) {
+        }else if (a==anio && m==mes && dia=='' && lab=='') {
           labo.push({
             tipo:doc.Ltipo,
             nombre:doc.Lnombre,
@@ -114,11 +133,12 @@ router.post("/anmedi", (req, res) => {
             materia:doc.Lmateria,
             estado:doc.Lestados,
             fecha:doc.fecha,
+            idlab:doc._id,
             estudiante:{
               url:'/api/v1.0/student/'+doc.Lalumno
             }
           });
-        }else if (anio=='' && m==mes && d==dia) {
+        }else if (a==anio && m==mes && dia=='' && l==lab) {
           labo.push({
             tipo:doc.Ltipo,
             nombre:doc.Lnombre,
@@ -127,11 +147,12 @@ router.post("/anmedi", (req, res) => {
             materia:doc.Lmateria,
             estado:doc.Lestados,
             fecha:doc.fecha,
+            idlab:doc._id,
             estudiante:{
               url:'/api/v1.0/student/'+doc.Lalumno
             }
           });
-        }else if (anio=='' && m==mes && dia=='') {
+        }else if (a==anio && mes=='' && d==dia && lab=='') {
           labo.push({
             tipo:doc.Ltipo,
             nombre:doc.Lnombre,
@@ -140,11 +161,12 @@ router.post("/anmedi", (req, res) => {
             materia:doc.Lmateria,
             estado:doc.Lestados,
             fecha:doc.fecha,
+            idlab:doc._id,
             estudiante:{
               url:'/api/v1.0/student/'+doc.Lalumno
             }
           });
-        }else if (anio=='' && mes=='' && d==dia) {
+        }else if (a==anio && mes=='' && d==dia && l==lab) {
           labo.push({
             tipo:doc.Ltipo,
             nombre:doc.Lnombre,
@@ -153,11 +175,12 @@ router.post("/anmedi", (req, res) => {
             materia:doc.Lmateria,
             estado:doc.Lestados,
             fecha:doc.fecha,
+            idlab:doc._id,
             estudiante:{
               url:'/api/v1.0/student/'+doc.Lalumno
             }
           });
-        }else if (a==anio && m==mes && d==dia) {
+        }else if (anio=='' && m==mes && d==dia && lab=='') {
           labo.push({
             tipo:doc.Ltipo,
             nombre:doc.Lnombre,
@@ -166,13 +189,140 @@ router.post("/anmedi", (req, res) => {
             materia:doc.Lmateria,
             estado:doc.Lestados,
             fecha:doc.fecha,
+            idlab:doc._id,
+            estudiante:{
+              url:'/api/v1.0/student/'+doc.Lalumno
+            }
+          });
+        }else if (anio=='' && m==mes && d==dia && l==lab) {
+          labo.push({
+            tipo:doc.Ltipo,
+            nombre:doc.Lnombre,
+            nota:doc.Lnota,
+            alumno:doc.Lalumno,
+            materia:doc.Lmateria,
+            estado:doc.Lestados,
+            fecha:doc.fecha,
+            idlab:doc._id,
+            estudiante:{
+              url:'/api/v1.0/student/'+doc.Lalumno
+            }
+          });
+        }else if (anio=='' && m==mes && dia=='' && lab=='') {
+          labo.push({
+            tipo:doc.Ltipo,
+            nombre:doc.Lnombre,
+            nota:doc.Lnota,
+            alumno:doc.Lalumno,
+            materia:doc.Lmateria,
+            estado:doc.Lestados,
+            fecha:doc.fecha,
+            idlab:doc._id,
+            estudiante:{
+              url:'/api/v1.0/student/'+doc.Lalumno
+            }
+          });
+        }else if (anio=='' && m==mes && dia=='' && l==lab) {
+          labo.push({
+            tipo:doc.Ltipo,
+            nombre:doc.Lnombre,
+            nota:doc.Lnota,
+            alumno:doc.Lalumno,
+            materia:doc.Lmateria,
+            estado:doc.Lestados,
+            fecha:doc.fecha,
+            idlab:doc._id,
+            estudiante:{
+              url:'/api/v1.0/student/'+doc.Lalumno
+            }
+          });
+        }else if (anio=='' && mes=='' && d==dia && lab=='') {
+          labo.push({
+            tipo:doc.Ltipo,
+            nombre:doc.Lnombre,
+            nota:doc.Lnota,
+            alumno:doc.Lalumno,
+            materia:doc.Lmateria,
+            estado:doc.Lestados,
+            fecha:doc.fecha,
+            idlab:doc._id,
+            estudiante:{
+              url:'/api/v1.0/student/'+doc.Lalumno
+            }
+          });
+        }else if (anio=='' && mes=='' && d==dia && l==lab) {
+          labo.push({
+            tipo:doc.Ltipo,
+            nombre:doc.Lnombre,
+            nota:doc.Lnota,
+            alumno:doc.Lalumno,
+            materia:doc.Lmateria,
+            estado:doc.Lestados,
+            fecha:doc.fecha,
+            idlab:doc._id,
+            estudiante:{
+              url:'/api/v1.0/student/'+doc.Lalumno
+            }
+          });
+        }else if (a==anio && m==mes && d==dia && lab=='') {
+          labo.push({
+            tipo:doc.Ltipo,
+            nombre:doc.Lnombre,
+            nota:doc.Lnota,
+            alumno:doc.Lalumno,
+            materia:doc.Lmateria,
+            estado:doc.Lestados,
+            fecha:doc.fecha,
+            idlab:doc._id,
+            estudiante:{
+              url:'/api/v1.0/student/'+doc.Lalumno
+            }
+          });
+        }else if (a==anio && m==mes && d==dia && l==lab) {
+          labo.push({
+            tipo:doc.Ltipo,
+            nombre:doc.Lnombre,
+            nota:doc.Lnota,
+            alumno:doc.Lalumno,
+            materia:doc.Lmateria,
+            estado:doc.Lestados,
+            fecha:doc.fecha,
+            idlab:doc._id,
+            estudiante:{
+              url:'/api/v1.0/student/'+doc.Lalumno
+            }
+          });
+        }else if (anio=='' && mes=='' && dia=='' && lab==''){
+          labo.push({
+            tipo:doc.Ltipo,
+            nombre:doc.Lnombre,
+            nota:doc.Lnota,
+            alumno:doc.Lalumno,
+            materia:doc.Lmateria,
+            estado:doc.Lestados,
+            fecha:doc.fecha,
+            idlab:doc._id,
+            estudiante:{
+              url:'/api/v1.0/student/'+doc.Lalumno
+            }
+          });
+        }else if (anio=='' && mes=='' && dia=='' && l==lab){
+          labo.push({
+            tipo:doc.Ltipo,
+            nombre:doc.Lnombre,
+            nota:doc.Lnota,
+            alumno:doc.Lalumno,
+            materia:doc.Lmateria,
+            estado:doc.Lestados,
+            fecha:doc.fecha,
+            idlab:doc._id,
             estudiante:{
               url:'/api/v1.0/student/'+doc.Lalumno
             }
           });
         }
       });
-      res.status(200).json(labo);
+      res.status(200).json({cant:labo.length, Info:labo});
       return;
     }
     res.status(204).json({
@@ -186,10 +336,10 @@ router.post("/anmedi", (req, res) => {
   });
  });
 
- router.post("/nombrep", (req, res) => {
-    var wordkey=req.body.wordkey;
+ router.post("/labs", (req, res) => {
+    var wordkey=req.body.lab;
     var information=[]
-    PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha").exec().then((docs)=>{
+    PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Ldocente Lmateria Lestados fecha _id").exec().then((docs)=>{
       docs.forEach((doc)=>{
         if (wordkey==doc.Ltipo) {
           information.push({
@@ -202,12 +352,13 @@ router.post("/anmedi", (req, res) => {
             fecha:doc.fecha,
             estudiante:{
               url:'/api/v1.0/student/'+doc.Lalumno
-            }
+            },
+            idlab:doc._id
           });
         //  return information;
         }
       });
-      res.status(200).json(information)
+      res.status(200).json({cant:information.length, Info:information})
 
     })
   });
