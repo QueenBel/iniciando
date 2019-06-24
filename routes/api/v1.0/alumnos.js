@@ -15,6 +15,39 @@ var PRA = require("../../../database/collections/../../database/collections/prac
 var CUE = require("../../../database/collections/../../database/collections/cuestionario");
 /*=========== CALIFICACION CALIFICACION CALIFICACION CALIFICACION==========*/
 var NO = require("../../../database/collections/../../database/collections/nota");
+
+router.get(/estudiante\/[a-z0-9]{1,}$/, (req, res) => {
+  var info=[];
+  var url = req.url;
+  var idAl = url.split('/')[2];
+  ALU.findOne({_id : idAl}).exec((err, docA) =>{
+    if (err) {
+      res.status(500).json({
+          msn: "Existe un error en la base de datos"
+      });
+      return;
+    }
+    PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Ldocente Lmateria Lestados fecha _id").exec().then((docs)=>{
+      docs.forEach(doc=>{
+        if (doc.Lalumno==idAl) {
+          info.push({
+            tipo:doc.Ltipo,
+            nombre:doc.Lnombre,
+            nota:doc.Lnota,
+            alumno:doc.Lalumno,
+            materia:doc.Lmateria,
+            estado:doc.Lestados,
+            fecha:doc.fecha,
+            idlab:doc._id
+          });
+        }
+      });
+      res.status(200).json({estudent:docA.Enombre, cant:info.length, LABS:info});
+    });
+  });
+});
+
+
 /*--============BUSCAR POR DIAS MESES ANIOS CON REFERECIA A SU MATERIA=================*/
 router.post(/alumAMD\/[a-z0-9]{1,}$/, (req, res) => {
   var dia=req.body.dia;
@@ -39,7 +72,7 @@ router.post(/alumAMD\/[a-z0-9]{1,}$/, (req, res) => {
          });
          return;
        }
-      PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Lestados fecha").exec().then((docs)=>{
+      PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Ldocente Lmateria Lestados fecha _id").exec().then((docs)=>{
         if (docs != null) {
           docs.forEach((doc)=>{
             var m=doc.fecha.getMonth()+1;

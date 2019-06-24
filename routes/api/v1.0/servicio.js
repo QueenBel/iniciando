@@ -135,19 +135,6 @@ router.get('/asignat', (req, res) => {
 /*=========== ESTUDIANTE ESTUDIANTE ESTUDANTE ESTUDIANTE ==========*/
 var ALU = require("../../../database/collections/../../database/collections/alumno");
 
-router.get(/student\/[a-z0-9]{1,}$/, (req, res) => {
-  var url = req.url;
-  var idAl = url.split('/')[2];
-  ALU.findOne({_id : idAl}).exec((err, docs) =>{
-    if (err) {
-      res.status(500).json({
-          msn: "Existe un error en la base de datos"
-      });
-      return;
-    }
-    res.status(200).json(docs);
-  });
-});
 
 router.post("/student", (req, res) => {
     var estudi = {
