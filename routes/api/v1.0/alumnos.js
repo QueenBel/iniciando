@@ -15,6 +15,7 @@ var PRA = require("../../../database/collections/../../database/collections/prac
 var CUE = require("../../../database/collections/../../database/collections/cuestionario");
 /*=========== CALIFICACION CALIFICACION CALIFICACION CALIFICACION==========*/
 var NO = require("../../../database/collections/../../database/collections/nota");
+/*--============BUSCAR POR DIAS MESES ANIOS CON REFERECIA A SU MATERIA=================*/
 router.post(/alumAMD\/[a-z0-9]{1,}$/, (req, res) => {
   var dia=req.body.dia;
   var mes=req.body.mes;
@@ -353,7 +354,7 @@ router.post(/alumAMD\/[a-z0-9]{1,}$/, (req, res) => {
     });
   })
 });
-  /*alumno unico q mostrara todo los lab de todas sus materias*/
+  /*===============BUSCAR POR RANGOS REFERENTE A SU MATERIA========================*/
   router.post(/alumRangos\/[a-z0-9]{1,}$/, (req, res) => {
     var url=req.url
     var ida= url.split("/")[2];

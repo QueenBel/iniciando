@@ -199,7 +199,7 @@ router.get(/practica\/[a-z0-9]{1,}$/, (req, res) => {
 router.post("/practica", (req, res) => {
   var IDma=req.body.materia;
   var IDes=req.body.estudiante;
-
+  var IDdo=req.body.docente;
   var practiqe = {
     Ltipo : req.body.tipo, // lab1 lab2
     Lnombre : req.body.nombre, //nombre de laboratorio
@@ -207,6 +207,7 @@ router.post("/practica", (req, res) => {
     Lalumno: IDes,
     Lmateria:IDma,
     Ldocente:IDdo,
+    Lestados:req.body.estado,
     fecha: new Date()
   };
   var praData = new PRA(practiqe);
@@ -271,10 +272,45 @@ router.post("/practica", (req, res) => {
   });
 });
 
-router.get('/practica', (req, res) => {
+/*router.get('/practica', (req, res) => {
   PRA.find({}).exec((error, docs) =>{
     res.status(200).json(docs);
   })
+});*/
+router.post('/practicaa', (req, res) => {
+  var params=req.query;
+  console.log(params);
+  var materia=params.materia;
+  var alumno=params.alumno;
+  var a=req.body.a;
+  var info=[];
+  //if (materia=undefined && alumno==undefined) {
+    PRA.find({Lmateria:materia,Lalumno:alumno}).exec((error, docs)=>{
+      docs.forEach(doc=>{
+        if (doc.Lmateria==materia && doc.Lalumno==alumno) {
+          info.push(doc);
+        }
+
+      });
+      res.status(200).json(info);
+    });
+    //return;
+  //}
+  /*if (alumno=="5d002d3489949937186db928") {
+    console.log("--------->>>>>>>");
+    PRA.find({Lmateria:materia,Lalumno:alumno}).exec((error, docs)=>{
+      res.status(200).json({info:docs});
+    });
+    return;
+  }else if (alumno=="true") {
+    PRA.find({Lmateria:{$gt:materia}}).exec((error, docs)=>{
+      res.status(200).json({info:docs});
+    });
+  }else if (alumno=="false") {
+    PRA.find({Lmateria:{$lt:materia}}).exec((error, docs)=>{
+      res.status(200).json({info:docs});
+    });
+  }*/
 });
 
 router.post('/estmat/', (req, res) => {
