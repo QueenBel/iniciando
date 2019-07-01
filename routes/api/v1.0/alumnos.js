@@ -31,17 +31,25 @@ router.post(/estuDimenMat\/[a-z0-9]{1,}$/, (req, res) => {
   	}
   	return fechas;
   };
+  //var params=req.query;
   var fechaDesde = moment(req.body.desde);
   var fechaHasta = moment(req.body.hasta);
+  /*var fechaDesde = moment(params.desde);
+  var fechaHasta = moment(params.hasta);*/
 
   var results=diasEntreFechas(fechaDesde, fechaHasta);
   /*=================*/
+  /*var dia=params.dia;
+  var mes=params.mes;
+  var anio=params.anio;
+  var lab=params.lab;*/
   var dia=req.body.dia;
   var mes=req.body.mes;
   var anio=req.body.anio;
   var lab=req.body.lab;
   var url=req.url;
   var ida= url.split("/")[2];
+  //let idm=params.idma;
   let idm=req.body.idma;
   var labo=[];
   ALU.findOne({_id:ida}).exec((err, doca)=>{
@@ -379,17 +387,25 @@ router.post(/estuDimenMatTFP\/[a-z0-9]{1,}$/, (req, res) => {
   	}
   	return fechas;
   };
+  //var params=req.query;
   var fechaDesde = moment(req.body.desde);
   var fechaHasta = moment(req.body.hasta);
+  /*var fechaDesde = moment(params.desde);
+  var fechaHasta = moment(params.hasta);*/
 
   var results=diasEntreFechas(fechaDesde, fechaHasta);
   /*=================*/
+  /*var dia=params.dia;
+  var mes=params.mes;
+  var anio=params.anio;
+  var lab=params.lab;*/
   var dia=req.body.dia;
   var mes=req.body.mes;
   var anio=req.body.anio;
   var lab=req.body.lab;
   var url=req.url;
   var ida= url.split("/")[2];
+  //let idm=params.idma;
   let idm=req.body.idma;
   var info=[];
   var info1=[];
@@ -1320,11 +1336,18 @@ router.post(/estuDimen\/[a-z0-9]{1,}$/, (req, res) => {
   	}
   	return fechas;
   };
+  //var params=req.query;
   var fechaDesde = moment(req.body.desde);
   var fechaHasta = moment(req.body.hasta);
+  /*var fechaDesde = moment(params.desde);
+  var fechaHasta = moment(params.hasta);*/
 
   var results=diasEntreFechas(fechaDesde, fechaHasta);
   /*=================*/
+  /*var dia=params.dia;
+  var mes=params.mes;
+  var anio=params.anio;
+  var lab=params.lab;*/
   var dia=req.body.dia;
   var mes=req.body.mes;
   var anio=req.body.anio;

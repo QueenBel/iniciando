@@ -37,6 +37,7 @@ router.get(/notas\/[a-z0-9]{1,}$/, (req, res) => {
     res.status(200).json(docs);
   });
 });
+
 router.post("/notas", (req, res) => {
   var resultado=[];
   var resultado1=[];
@@ -95,7 +96,7 @@ router.post("/notas", (req, res) => {
               });
             }
           });
-/*============== LAB TERMINADOS=============*/
+         /*============== LAB TERMINADOS=============*/
             var suma=0;
             for (var i = 0; i < resultado.length; i++) {
               suma=resultado[i].nota+suma;
@@ -107,23 +108,23 @@ router.post("/notas", (req, res) => {
                cantidad: resultado.length,
                ponderacion: div
             };
-/*============== LAB QUE FALTAN=============*/
+        /*============== LAB QUE FALTAN=============*/
             var r1={
              laboratorios: resultado1,
              cantidad: resultado1.length
             };
-/*============== LAB PENDIENTES=============*/
+        /*============== LAB PENDIENTES=============*/
             var r2={
              laboratorios: resultado2,
              cantidad: resultado2.length
             };
-/*=============*****************************/
+       /*=============*****************************/
            var lab ={
              Revisados : r,
              Faltantes : r1,
              Pendientes : r2
            };
-/*=============*****************************/
+      /*=============*****************************/
             var notin = {
               Canombre : docm.Mnombre, // materia
               Caidmat : docm._id,
@@ -178,6 +179,25 @@ router.get('/notas', (req, res) => {
     res.status(200).json(docs);
   })
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Handle incoming GET requests to /orders
 router.get("/orden", (req, res, next) => {

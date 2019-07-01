@@ -15,6 +15,8 @@ var PRA = require("../../../database/collections/../../database/collections/prac
 var CUE = require("../../../database/collections/../../database/collections/cuestionario");
 /*=========== CALIFICACION CALIFICACION CALIFICACION CALIFICACION==========*/
 var NO = require("../../../database/collections/../../database/collections/nota");
+/*============BUSCADOR POR DIMENSIONES + materia DE UN DETERMINADO docente==============*/
+
 router.post(/doceDimenMat\/[a-z0-9]{1,}$/, (req, res) => {
   /*funcion de rangos*/
   var diasEntreFechas = function(fechaDesde, fechaHasta) {
@@ -1315,7 +1317,8 @@ router.post(/doceDimenMatTFPEs\/[a-z0-9]{1,}$/, (req, res) => {
 
 
 /*============BUSCADOR POR DIMENSIONES DE UN DETERMINADO ESTUDIANTE==============*/
-router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
+//router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
+router.post("/doceDimennn", (req, res) => {
   /*funcion de rangos*/
   var diasEntreFechas = function(fechaDesde, fechaHasta) {
   	var dia_actual = fechaDesde;
@@ -1339,24 +1342,26 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
   var mes=req.body.mes;
   var anio=req.body.anio;
   var lab=req.body.lab;
-  var url=req.url;
-  var ido= url.split("/")[2];
-  var labo=[];
-  DOCE.findOne({_id:ido}).exec((err, docd)=>{
+  //var url=req.url;
+  //var iddo= url.split("/")[2];
+  var iddo=req.body.iddo;
+  var llabo=[];
+  DOCE.findOne({_id:iddo}).exec((err, docd)=>{
     if (err) {
        res.status(500).json({
            msn: "error"
        });
        return;
      }
-    PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Ldocente Lmateria Lestados fecha").exec().then((docs)=>{
-      if (docs != null) {
+    PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Lmateria Ldocente Lestados fecha _id").exec().then((docs)=>{
+      //if (docs != null) {
         docs.forEach(doc=>{
           var m=doc.fecha.getMonth()+1;
           var d=doc.fecha.getDate();
           var a=doc.fecha.getFullYear();
           var l=doc.Ltipo;
-          if (doc.Ldocente==ido) {
+          var doce=doc.Ldocente
+          if (doce==iddo) {
             if (results!='') {
               for (var i = 0; i < results.length; i++) {
                 if (doc.fecha.getFullYear()==results[i].anio) {
@@ -1364,13 +1369,13 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                    if (m==results[i].mes) {
                      var d=doc.fecha.getDate();
                     if (d==results[i].dia && lab==l) {
-                        labo.push({
+                        llabo.push({
                           tipo:doc.Ltipo,
                           nombre:doc.Lnombre,
                           nota:doc.Lnota,
-                          //alumno:doc.Lalumno,
+                          alumno:doc.Lalumno,
                           materia:doc.Lmateria,
-                          //docente:doc.Ldocente,
+                          docente:doc.Ldocente,
                           estado:doc.Lestados,
                           fecha:doc.fecha,
                           estudiante:{
@@ -1379,13 +1384,13 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                           idlab:doc._id
                         });
                      }else if (d==results[i].dia && lab=='') {
-                         labo.push({
+                         llabo.push({
                            tipo:doc.Ltipo,
                            nombre:doc.Lnombre,
                            nota:doc.Lnota,
-                           //alumno:doc.Lalumno,
+                           alumno:doc.Lalumno,
                            materia:doc.Lmateria,
-                           //docente:doc.Ldocente,
+                           docente:doc.Ldocente,
                            estado:doc.Lestados,
                            fecha:doc.fecha,
                            estudiante:{
@@ -1400,11 +1405,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
               return;
             }
             if (l==lab && a==anio && mes=='' && dia=='') {
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1415,11 +1420,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (a==anio && mes=='' && dia=='' && lab==''){
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1430,11 +1435,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (a==anio && m==mes && dia=='' && lab=='') {
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1445,11 +1450,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (a==anio && m==mes && dia=='' && l==lab) {
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1460,11 +1465,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (a==anio && mes=='' && d==dia && lab=='') {
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1475,11 +1480,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (a==anio && mes=='' && d==dia && l==lab) {
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1490,11 +1495,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (anio=='' && m==mes && d==dia && lab=='') {
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1505,11 +1510,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (anio=='' && m==mes && d==dia && l==lab) {
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1520,11 +1525,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (anio=='' && m==mes && dia=='' && lab=='') {
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1535,11 +1540,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (anio=='' && m==mes && dia=='' && l==lab) {
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1550,11 +1555,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (anio=='' && mes=='' && d==dia && lab=='') {
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1565,11 +1570,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (anio=='' && mes=='' && d==dia && l==lab) {
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1580,11 +1585,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (a==anio && m==mes && d==dia && lab=='') {
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1595,11 +1600,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (a==anio && m==mes && d==dia && l==lab) {
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1610,11 +1615,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (anio=='' && mes=='' && dia=='' && lab==''){
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1625,11 +1630,11 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
                   idlab:doc._id
                 });
             }else if (anio=='' && mes=='' && dia=='' && l==lab){
-                labo.push({
+                llabo.push({
                   tipo:doc.Ltipo,
                   nombre:doc.Lnombre,
                   nota:doc.Lnota,
-                  //alumno:doc.Lalumno,
+                  alumno:doc.Lalumno,
                   materia:doc.Lmateria,
                   //docente:doc.Ldocente,
                   estado:doc.Lestados,
@@ -1642,13 +1647,10 @@ router.post(/doceDimennn\/[a-z0-9]{1,}$/, (req, res) => {
             }
           }
         });
-        var result={Docente:docd.Dnombre, cant:labo.length, Laboratorios:labo};
+        var result={Docente:docd.Dnombre, cant:llabo.length, Laboratorios:llabo};
         res.status(200).json(result);
-        return;
-      }
-      res.status(204).json({
-        "msn" : "No existe el recurso "
-      })
+        console.log(llabo);
+        //return;
     });
   })
  });

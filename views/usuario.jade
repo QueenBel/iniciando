@@ -2,7 +2,7 @@ extends layUsuario
 
 block content
   h1= title
-  p ver LAB in NodeJS and Express
+  p 
   table.table.table-hover.table-striped.table-bordered
     thead
       tr
@@ -10,8 +10,11 @@ block content
         th ID
         th TIPO
         th NOMBRE
-        th CI
-        th NOTALAB
+        th NOTA
+        th ESTUDIANTE
+        th MATERIA
+        th DOCENTE
+        th ESTADO
         th FECHA
         th Action
     tbody
@@ -19,10 +22,13 @@ block content
        tr
          th(scope='row') #{i+1}
          td #{news[i]['_id']}
-         td #{news[i]['tipo']}
-         td #{news[i]['nombre']}
-         td #{news[i]['ci']}
-         td #{news[i]['notalab']}
+         td #{news[i]['Ltipo']}
+         td #{news[i]['Lnombre']}
+         td #{news[i]['Lnota']}
+         td #{news[i]['Lalumno']}
+         td #{news[i]['Lmateria']}
+         td #{news[i]['Ldocente']}
+         td #{news[i]['Lestados']}
          td #{news[i]['fecha']}
          td
           //a(href="users/pdf/"+news[i]['id'])

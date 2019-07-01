@@ -10,8 +10,12 @@ var PRA = require("../../../database/collections/../../database/collections/prac
 var CUE = require("../../../database/collections/../../database/collections/cuestionario");
 var NO = require("../../../database/collections/../../database/collections/nota");
 
-router.post("/dimensionesPra", (req, res) => {
+var PDFDocument = require('pdfkit');
+const fs =require('fs');
+
+router.post("/dimensionesPraa", (req, res) => {
   /*funcion de rangos*/
+  const doc=new PDFDocument();
   var diasEntreFechas = function(fechaDesde, fechaHasta) {
   	var dia_actual = fechaDesde;
     var fechas = [];
@@ -25,15 +29,22 @@ router.post("/dimensionesPra", (req, res) => {
   	}
   	return fechas;
   };
-  var fechaDesde = moment(req.body.desde);
-  var fechaHasta = moment(req.body.hasta);
+  var params=req.query;
+  //var fechaDesde = moment(req.body.desde);
+  //var fechaHasta = moment(req.body.hasta);
+  var fechaDesde = moment(params.desde);
+  var fechaHasta = moment(params.hasta);
 
   var results=diasEntreFechas(fechaDesde, fechaHasta);
   /*=================*/
-  var dia=req.body.dia;
+  var dia=params.dia;
+  var mes=params.mes;
+  var anio=params.anio;
+  var lab=params.lab;
+  /*var dia=req.body.dia;
   var mes=req.body.mes;
   var anio=req.body.anio;
-  var lab=req.body.lab;
+  var lab=req.body.lab;*/
   var labo=[];
   PRA.find({}).select("Ltipo Lnombre Lnota Lalumno Ldocente Lmateria Lestados fecha _id").exec().then((docs)=>{
     if (docs != null) {
@@ -326,7 +337,10 @@ router.post("/dimensionesPra", (req, res) => {
           });
         }
       });
-      res.status(200).json({cant:labo.length, Info:labo});
+      var result={cant:labo.length, Info:labo}
+      res.status(200).json(result);
+      //es.render('index');
+
       return;
     }
     res.status(204).json({
