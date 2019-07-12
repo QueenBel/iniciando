@@ -1,0 +1,5 @@
+INSTALAR-> npm install -g create-react-app
+NUEVO PROYECTO-> create-react-app inicio
+==========INSTALAR PACKAGES==========
+npm install --save react-chartjs-2 chart.js
+
